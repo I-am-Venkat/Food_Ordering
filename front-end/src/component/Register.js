@@ -1,7 +1,15 @@
 // import bgimg from '../img/loginBGI.jpg'
 import "../styles/register.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link,useNavigate} from "react-router-dom";
 const Register=()=>{
+  const navigate=useNavigate();
+  const handleSubmit=(event)=>{
+    event.preventDefault();
+    console.log("Registered Successfully");
+  
+    navigate("/Login");
+  }
 
     return(
     <div className="container">
@@ -69,7 +77,7 @@ const Register=()=>{
       </div>
       <div id="redirect">
         <label for="">Already have an account
-          <a href="login.html">L o g i n</a></label>
+         <Link to="/Login">L o g i n</Link></label>
       </div>
     </div>
   </div>
