@@ -10,7 +10,7 @@ const Login=()=>{
     <div class="login-container">
 
         <div id="heading">
-            <h1>LOGIN</h1>
+            <h2 style={{fontWeight:"800"}}>LOGIN</h2>
         </div>
         
         <form class="login_form" action="login.php" method="POST">
