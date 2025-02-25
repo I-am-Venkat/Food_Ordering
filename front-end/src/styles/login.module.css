@@ -5,9 +5,9 @@ body{
     background-image: url(..//img/loginBGI.jpg);
 }
 
-.login-container{
+.loginContainer{
     background-color:transparent;
-    padding: 5%;
+    padding: 4%;
     border-radius: 25px;
     box-shadow: 0px 0px 10px 0px black;
     align-items: center;
@@ -16,24 +16,26 @@ body{
     flex-direction:column;;
 
 }
-.login-container h1{
+.loginContainer h1{
     color: black;
     font-size: 50px;
     /* margin-bottom: 20px; */
 }
-.login-container input{
+.loginContainer input{
     margin-bottom: 20px;
     width:350px;
     height:50px;
 
 }
-.login-container button{
+.loginContainer button{
+    margin-left: 85px;
     margin-bottom:45px;
+    margin-top: 20px;
     height:50px;
-    width:200px;
+    width:150px;
     /* background-color: #f4f4f9; */
 }
-.login-container a{
+.loginContainer a{
     color:black;
     font-size: large;
     font-weight: bolder;

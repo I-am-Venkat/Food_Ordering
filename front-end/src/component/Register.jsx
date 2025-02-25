@@ -1,9 +1,10 @@
 // import bgimg from '../img/loginBGI.jpg'
-import "../styles/register.css";
+import styles from "../styles/register.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from "react-router-dom";
 import {useState} from "react";
-import Popup from "./Popup";
+import Swal from 'sweetalert2';
+// import Popup from "./Popup";
 const Register = () => {
      const navigate=useNavigate(); // For navigation
      const [formData,setFormData]=useState({
@@ -21,17 +22,26 @@ const Register = () => {
      const handleSubmit=(event)=>{
           event.preventDefault();
           if(formData.password!==formData.confirmPassword){
-            setShowModal(true);
-            return;
+            Swal.fire({
+              icon: "error",
+              title: "Password Mismatch",
+              text: "Pasword and confirm password should be same",
+              // footer: '<a href="#">Why do I have this issue?</a>'
+            });
+            // setShowModal(true);
+            // return;
           }
-          console.log("registered Successfully");
-          navigate("/Login");
+          else{
+              console.log("registered Successfully");
+              navigate("/Login");
+          }
+          
      }
      
      
 
   return (
-    <div className="container">
+    <div className={styles.container}>
 
       <div className="row">
 
@@ -40,7 +50,7 @@ const Register = () => {
         </div>
 
         <div className="col-sm" style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-          <div className="register-container" >
+          <div className={styles.registerContainer} >
             <form onSubmit={handleSubmit} >
               <div className="form-group" id="reg" style={{ alignItems: "center" }}>
                 <h2 style={{ marginBottom: "20px" }}>Register</h2>
@@ -95,7 +105,7 @@ const Register = () => {
               </div>
             </div>
           )} */}
-           <Popup show={showModal} onClose={() => setShowModal(false)} title="Password Mismatch" message="The passwords do not match. Please try again." />
+           {/* <Popup show={showModal} onClose={() => setShowModal(false)} title="Password Mismatch" message="The passwords do not match. Please try again." /> */}
             <div id="redirect">
               <label htmlFor="">Already have an account
                 <Link to="/Login">L o g i n</Link></label>

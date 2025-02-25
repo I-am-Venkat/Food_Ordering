@@ -12,7 +12,7 @@ body{
 }
 
 
-.register-container{
+.registerContainer{
     
     background-color:transparent;
     padding: 5%;
@@ -36,7 +36,7 @@ h1{
     margin-top: 35px;
     margin-bottom: 50px;
 }
-.register-container input{
+.registerContainer input{
     margin-bottom: 30px;
     width:300px;
     height:50px;
@@ -49,21 +49,23 @@ h1{
     width:150px;
     font-size: 17px;
 } */
-.register-container a{
+.registerContainer a{
     color:black;
     font-size: large;
     font-weight: bolder;
 }
-.register-container label{
+.registerContainer label{
     color:black;
     font-size: large;
     font-weight:600;   
 }
 #button{
+    margin-left: 85px;
     display: flex;
     justify-content: center;
 }
 #submit{
+    margin-left: 85px; 
     height:40px;
     width:130px;
     margin-bottom:45px;
