@@ -17,10 +17,12 @@ const Login=()=>{
         event.preventDefault();
         if((formData.password)!=="admin@123"){
             alert("Wrong password");
-            return;
+            
         }
+        else{
         console.log("Login Successfull");
-        navigate("/Home"); 
+        navigate("/Home");
+        } 
     }
     return (
 
@@ -33,7 +35,7 @@ const Login=()=>{
             <h2 style={{fontWeight:"800"}}>LOGIN</h2>
         </div>
         
-        <form class="login_form" action="login.php" onSubmit={handleSubmit} method="POST">
+        <form class="login_form"  onSubmit={handleSubmit} method="POST">
 
             <div class="form-group" id="mobile-number">
                 <input className="form-control" type="text" name ="mobilenumber" onChange={handleChange} value={formData.mobilenumber} minLength="10" maxLength="10" placeholder="Enter Mobile number" required/>
@@ -44,7 +46,7 @@ const Login=()=>{
             </div>
 
             <div id="submit-button">
-                <button class="btn btn-primary" type="submit" id="submit"><Link to='/Home'>Submit</Link></button>
+                <button class="btn btn-primary" type="submit" id="submit">Submit</button>
             </div>
 
         </form>
