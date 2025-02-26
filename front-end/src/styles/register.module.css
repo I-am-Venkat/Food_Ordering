@@ -2,11 +2,13 @@
 body{
     background-color: #f4f4f9;
     font-family: 'Poppins',sans-serif;
-    background-image: url(..//img/loginBGI.jpg);
+    
     
 }
 .container{
+
     display: flex;
+
     justify-content: space-between;
     flex-direction: row !important;
 }

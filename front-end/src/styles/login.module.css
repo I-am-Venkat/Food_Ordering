@@ -2,10 +2,11 @@
 body{
     background-color: #f4f4f9;
     font-family: 'Poppins',sans-serif;
-    background-image: url(..//img/loginBGI.jpg);
+    /* background-image: url(..//img/loginBGI.jpg); */
 }
 
 .loginContainer{
+
     background-color:transparent;
     padding: 4%;
     border-radius: 25px;

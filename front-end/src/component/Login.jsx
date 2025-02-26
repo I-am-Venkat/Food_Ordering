@@ -28,8 +28,19 @@ const Login=()=>{
             
         }
         else{
+        Swal.fire({
+            title: "Login Successfull !",
+            icon: "success",
+            draggable: true,
+            confirmButtonText:"Okay"
+                })
+                .then((result=>{
+                    if(result.isConfirmed){
+                        navigate("/Home");
+                    }
+                }));
         console.log("Login Successfull");
-        navigate("/Home");
+        
         } 
     }
     return (

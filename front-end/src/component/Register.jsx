@@ -32,8 +32,20 @@ const Register = () => {
             // return;
           }
           else{
+            Swal.fire({
+              title: "Registered Successfully!",
+              icon: "success",
+              draggable: true,
+              confirmButtonText:"Okay",
+            }).then ((result)=>{
+                  if(result.isConfirmed){
+                    navigate("/Login");
+                  }
+            });
               console.log("registered Successfully");
-              navigate("/Login");
+              
+              
+              
           }
           
      }
