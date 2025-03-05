@@ -36,7 +36,7 @@ const Login=()=>{
                 })
                 .then((result=>{
                     if(result.isConfirmed){
-                        navigate("/Home");
+                        navigate("/Dashboard/AdminDashboard");
                     }
                 }));
         console.log("Login Successfull");
