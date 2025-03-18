@@ -4,6 +4,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { NavLink } from "react-router-dom";
+import Link from "@mui/material";
 // import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"; 
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 
@@ -65,7 +66,7 @@ const Sidebar = ({ isOpen }) => {
         <ListItem 
           button 
           component={NavLink} 
-          to="/restaurants" 
+          to="/Dashboard/ManageRestaurants" 
           sx={{
             color: "#D9D9D9",
             "&:hover": { backgroundColor: "#424242" },
@@ -74,8 +75,8 @@ const Sidebar = ({ isOpen }) => {
           }}
         >
           <ListItemIcon sx={{ color: "#D9D9D9" }}><RestaurantIcon /></ListItemIcon>
-          <ListItemText primary="Manage Restaurants" sx={{ transition: "font-weight 0.3s ease" }} />
-        </ListItem>
+         <ListItemText primary="Manage Restaurants" sx={{ transition: "font-weight 0.3s ease" }} />
+          </ListItem>
 
         <Divider sx={{ backgroundColor: "#D9D9D9" }} />
 
