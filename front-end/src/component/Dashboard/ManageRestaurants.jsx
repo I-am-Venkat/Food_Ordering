@@ -2,15 +2,17 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+// import { Button } from 'bootstrap';
 
 const columns = [
-  { field: 'id', headerName: 'Restaurant ID', width: 150 },
-  { field: 'RestaurantName', headerName: 'Restaurant Name', width: 200 },
+  { field: 'id', headerName: 'Restaurant ID', width: 200 },
+  { field: 'RestaurantName', headerName: 'Restaurant Name', width: 500 },
   { field: 'City', headerName: 'City', width: 150 },
   {
     field: 'OwnerName',
     headerName: 'Owner Name',
-    width: 150,
+    width: 300,
   },
   {
     field: 'ContactNumber',
@@ -35,9 +37,29 @@ const rows=[
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function DataTable() {
+const DataTable= () => {
   return (
-    <Box>
+   
+   <>
+   <div className="addRestaurantDiv"    style={{
+          marginTop:"2%",
+          padding: '10px', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          
+        }}>
+      <div style={{marginLeft:"5%"}}> <h2>Restaurants</h2> </div>
+      <div  style={{marginRight:"5%"}}> <Button variant="contained">Add Restaurant</Button> </div>
+   </div>
+    <Box sx={{
+      width:"90vw",
+      marginTop:"4%",
+      margin:"50px auto ",
+      display: "flex",
+      justifyContent: "center", // Centers horizontally
+      alignItems: "center"
+    }}>
     <Paper sx={{ height: 400, width: '100%' }}>
       <DataGrid
       
@@ -50,5 +72,7 @@ export default function DataTable() {
       />
     </Paper>
     </Box>
+    </>
   );
 }
+export default DataTable;
