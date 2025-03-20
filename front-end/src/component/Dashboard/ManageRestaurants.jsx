@@ -59,7 +59,7 @@ const DataTable= () => {
 							data-bs-toggle="modal"
 							data-bs-target="#myModal"
 						>
-							Add Candidate
+							Add Restaurant 
 						</button>
         {/* <Button variant="contained" id="addResBtn">Add Restaurant</Button> */}
       </div>
@@ -136,7 +136,7 @@ const DataTable= () => {
 
 							<div className="col-md-6 mb-3">
 							<label htmlFor="contact" className="form-label">
-								City
+								Contact Number 
 							</label>
 							<input
 								type="text"
@@ -145,6 +145,17 @@ const DataTable= () => {
 								placeholder="Enter Contact Number"
 								id="contact"
 							/>
+							</div>
+							<div className="btns"></div>
+							<div classname="col-md-6 mb-3">
+								<button class="btn btn-light">
+									Clear
+								</button>
+							</div>
+							<div classname="col-md-6 mb-3">
+								<button class="btn btn-dark">
+									Add
+								</button>
 							</div>
 						</div>
 
