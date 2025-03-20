@@ -3,7 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-// import { Button } from 'bootstrap';
+import { Popover } from '@mui/material';
+import Typography from '@mui/material';
+
+
 
 const columns = [
   { field: 'id', headerName: 'Restaurant ID', width: 200 },
@@ -50,8 +53,108 @@ const DataTable= () => {
           
         }}>
       <div style={{marginLeft:"5%"}}> <h2>Restaurants</h2> </div>
-      <div  style={{marginRight:"5%"}}> <Button variant="contained">Add Restaurant</Button> </div>
+      <div  style={{marginRight:"5%"}}> 
+      <button 
+							className="btn btn-dark" 
+							data-bs-toggle="modal"
+							data-bs-target="#myModal"
+						>
+							Add Candidate
+						</button>
+        {/* <Button variant="contained" id="addResBtn">Add Restaurant</Button> */}
+      </div>
    </div>
+ {/* Add Restaurant Modal */}
+   <div
+				className="modal fade"
+				id="myModal"
+				tabIndex="-1"
+				aria-labelledby="exampleModalLabel"
+				aria-hidden="true"
+				>
+				<div className="modal-dialog modal-lg modal-dialog-centered">
+					{/* Centered and Large Modal */}
+					<div className="modal-content">
+					<div className="modal-header">
+						<h5 className="modal-title" id="exampleModalLabel">
+						Add Restaurant
+						</h5>
+						<button
+						type="button"
+						className="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+						></button>
+					</div>
+
+					{/* Modal Body */}
+					<div className="modal-body">
+						<form>
+						<div className="row">
+							{/* First Row - Two Inputs */}
+							<div className="col-md-6 mb-3">
+							<label htmlFor="resName" className="form-label">
+								Restaurant Name
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								name="resName"
+								placeholder="Enter Restaurant Name"
+								id="resName"
+							/>
+							</div>
+
+							<div className="col-md-6 mb-3">
+							<label htmlFor="city" className="form-label">
+								City
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								name="city"
+								placeholder="Enter Restaurant City"
+								id="city"
+							/>
+							</div>
+						</div>
+
+						<div className="row">
+							{/* Second Row - Two More Inputs */}
+							<div className="col-md-6 mb-3">
+							<label htmlFor="ownerName" className="form-label">
+								Owner Name
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								name="ownerName"
+								placeholder="Enter Owner Name"
+								id="ownerName"
+							/>
+							</div>
+
+							<div className="col-md-6 mb-3">
+							<label htmlFor="contact" className="form-label">
+								City
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								name="contact"
+								placeholder="Enter Contact Number"
+								id="contact"
+							/>
+							</div>
+						</div>
+
+						
+						</form>
+					</div>
+          </div>
+          </div>
+          </div>
+
     <Box sx={{
       width:"90vw",
       marginTop:"4%",
