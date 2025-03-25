@@ -9,12 +9,12 @@ import logo from "../../img/favicon.jpg";
 
 const Header = ({ setIsSidebarOpen }) => {
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: " #2479d9;", zIndex: 1300 }}>
+    <AppBar position="fixed" sx={{ backgroundColor: " #C4DFE6", zIndex: 1300 }}> 
       <Toolbar>
         {/* Sidebar Toggle Button */}
         <IconButton 
           edge="start" 
-          color="inherit" 
+          color="black" 
           onClick={() => setIsSidebarOpen(prev => !prev)}
           sx={{ mr: 2 }}
         >
@@ -27,6 +27,7 @@ const Header = ({ setIsSidebarOpen }) => {
           src={logo}  
           alt="Logo"
           sx={{
+            
             width: 100,  
             height: 40,  
             objectFit: "contain",

@@ -17,10 +17,11 @@ const Sidebar = ({ isOpen }) => {
         width: isOpen ? 240 : 0,
         flexShrink: 0,
         transition: "width 0.3s ease",
+        
         "& .MuiDrawer-paper": {
           width: isOpen ? 240 : 0,
           boxSizing: "border-box",
-          backgroundColor: "#2a2a2a;",  // Sidebar Background
+          backgroundColor: "#66A5AD",  // Sidebar Background
           color: "#D9D9D9",
           top: "64px",  // Prevents overlap with header
         },
@@ -33,14 +34,14 @@ const Sidebar = ({ isOpen }) => {
           component={NavLink} 
           to="/Dashboard/AdminDashboard" 
           sx={{
-    
-            color: "#D9D9D9",
-            "&:hover": { backgroundColor: "#424242" },  
+            
+            color: "white",
+            // "&:hover": { backgroundColor: "white" },  
             "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, // Bold text on hover
             "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
           }}
         >
-          <ListItemIcon sx={{ color: "#D9D9D9" }}><DashboardIcon /></ListItemIcon>
+          <ListItemIcon sx={{ color: "white" }}><DashboardIcon /></ListItemIcon>
           <ListItemText primary="Dashboard" sx={{ transition: "font-weight 0.3s ease" }} />
         </ListItem>
         <Divider sx={{ backgroundColor: "#D9D9D9" }} />
@@ -51,13 +52,13 @@ const Sidebar = ({ isOpen }) => {
           component={NavLink} 
           to="/user" 
           sx={{
-            color: "#D9D9D9",
-            "&:hover": { backgroundColor: "#424242" },
+            color: "white",
+            // "&:hover": { backgroundColor: "#424242" },
             "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, 
             "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
           }}
         >
-          <ListItemIcon sx={{ color: "#D9D9D9" }}><PeopleIcon /></ListItemIcon>
+          <ListItemIcon sx={{ color: "white" }}><PeopleIcon /></ListItemIcon>
           <ListItemText primary="Manage Users" sx={{ transition: "font-weight 0.3s ease" }} />
         </ListItem>
         <Divider sx={{ backgroundColor: "#D9D9D9" }} />
@@ -68,13 +69,13 @@ const Sidebar = ({ isOpen }) => {
           component={NavLink} 
           to="/Dashboard/ManageRestaurants" 
           sx={{
-            color: "#D9D9D9",
-            "&:hover": { backgroundColor: "#424242" },
+            color: "white",
+            // "&:hover": { backgroundColor: "#424242" },
             "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, 
             "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
           }}
         >
-          <ListItemIcon sx={{ color: "#D9D9D9" }}><RestaurantIcon /></ListItemIcon>
+          <ListItemIcon sx={{ color: "white" }}><RestaurantIcon /></ListItemIcon>
          <ListItemText primary="Manage Restaurants" sx={{ transition: "font-weight 0.3s ease" }} />
           </ListItem>
 
@@ -86,13 +87,13 @@ const Sidebar = ({ isOpen }) => {
           component={NavLink} 
           to="/settings" 
           sx={{
-            color: "#D9D9D9",
-            "&:hover": { backgroundColor: "#424242" },
+            color: "white",
+            // "&:hover": { backgroundColor: "#424242" },
             "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, 
             "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
           }}
         >
-          <ListItemIcon sx={{ color: "#D9D9D9" }}><SettingsIcon /></ListItemIcon>
+          <ListItemIcon sx={{ color: "white" }}><SettingsIcon /></ListItemIcon>
           <ListItemText primary="Settings" sx={{ transition: "font-weight 0.3s ease" }} />
         </ListItem>
       </List>

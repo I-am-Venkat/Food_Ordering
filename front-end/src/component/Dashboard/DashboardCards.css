@@ -6,6 +6,7 @@
 .animated-card {
     text-align: center;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+       
   }
   
   .animated-card:hover {
@@ -16,13 +17,14 @@
   
   .card1 {
     background: linear-gradient(135deg); 
+    
     /* color: #008080; */
   }
 
   
   .card2 {
     background: linear-gradient(135deg); 
-    /* color: #008080; */
+      /* color: #008080; */
   }
   
   .card3 {

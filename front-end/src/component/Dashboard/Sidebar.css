@@ -4,7 +4,7 @@
 }
 .sidebar {
     width: 240px;
-    background-color: #2479d9; /* Dark attractive blue */
+    background-color: #CADCFC; /* Dark attractive blue */
     color: white;
     position: fixed;
     height: calc(100vh - 64px); /* Adjusts sidebar height to avoid overlapping header */

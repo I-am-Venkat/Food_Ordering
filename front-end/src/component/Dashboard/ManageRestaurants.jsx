@@ -228,16 +228,17 @@ const DataTable = () => {
                     >
 
                       <div classname="col-md-6 mb-3">
-                        <button class="btn btn-light" style={{ backgroundColor: "#D84040" ,color:"white", marginLeft:"20px" ,width:"85px"}}>
-                          Clear
-                        </button>
+                        <input type="reset" class="btn btn-primary btn-sm" value="Clear" style={{ backgroundColor: "#D84040" ,color:"white", marginLeft:"20px" ,width:"85px", borderColor:"#D84040"}}/>
+                          
+                        {/* </button> */}
                       </div>
-                      <div classname="col-md-6 mb-3">
-                        <button class="btn btn-dark" style={{ backgroundColor: "#0d6efd" ,color:"white", marginRight  :"20px" ,width:"85px" ,borderColor:"#0d6efd"}}>
-                          Add
-                        </button>
 
+					  <div classname="col-md-6 mb-3">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Add" style={{ backgroundColor: "#0d6efd" ,color:"white", marginLeft:"20px" ,width:"85px",borderColor:"#0d6efd"}}/>
+                          
+                        {/* </button> */}
                       </div>
+
 
                     </div>
 
