@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link,useNavigate} from "react-router-dom";
 import {useState} from "react";
 import Swal from 'sweetalert2';
+import axios from "axios";
 const Login=()=>{
     const navigate=useNavigate();
     const [formData,setFormData]=useState({
@@ -14,34 +15,42 @@ const Login=()=>{
     setFormData({...formData,[e.target.name]:e.target.value});
    };
 
-    const handleSubmit=(event)=>{
+
+    const handleSubmit=async(event)=>{
         event.preventDefault();
-        if((formData.password)!=="admin@123"){
+        try{
+        const response=await axios.post("http://localhost:5000/login",{mobilenumber:formData.mobilenumber,password:formData.password});
+        
+        if(response.data.success){
+            Swal.fire({
+                title: "Login Successfull !",
+                icon: "success",
+                draggable: true,
+                confirmButtonText:"Okay"
+                    })
+                    .then((result=>{
+                        if(result.isConfirmed){
+                            navigate("/Dashboard/AdminDashboard");
+                        }
+                    }));
+            console.log("Login Successfull");
+
+        }
+        else{
             Swal.fire({
                 icon: "error",
                 title: "Wrong Password !",
                 text: "Enter Correct Password",
-                // footer: '<a href="#">Why do I have this issue?</a>'
               });
-              
-            // alert("Wrong password");
-            
         }
-        else{
+    }
+    catch{
         Swal.fire({
-            title: "Login Successfull !",
-            icon: "success",
-            draggable: true,
-            confirmButtonText:"Okay"
-                })
-                .then((result=>{
-                    if(result.isConfirmed){
-                        navigate("/Dashboard/AdminDashboard");
-                    }
-                }));
-        console.log("Login Successfull");
-        
-        } 
+            icon: "error",
+            title: "Invalid !",
+            text: "Error",
+          });
+    }
     }
     return (
 
