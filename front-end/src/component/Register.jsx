@@ -32,22 +32,41 @@ const Register = () => {
             // return;
           }
           else{
-            Swal.fire({
-              title: "Registered Successfully!",
-              icon: "success",
-              draggable: true,
-              confirmButtonText:"Okay",
-            }).then ((result)=>{
-                  if(result.isConfirmed){
-                    navigate("/Login");
-                  }
-            });
-              console.log("registered Successfully");
-              
-              
-              
-          }
-          
+          fetch("http://localhost:5000/Register",{
+               method:"POST",
+               headers:{
+                    "Content-Type":"application/json",
+               },
+               body:JSON.stringify({
+                    name:formData.name,
+                    mobilenumber:formData.mobileNumber,
+                    password:formData.password,
+                    confirmPassword:formData.confirmPassword
+               })
+          }).then((res)=>res.json())
+          .then((data)=>{
+               if(data.error){
+                    Swal.fire({
+                         icon: "error",
+                         title: "Error Occured",
+                         text: data.error,
+                    });
+               }
+               else{
+                    Swal.fire({
+                         title: "Registered Successfully!",
+                         icon: "success",
+                         draggable: true,
+                         confirmButtonText:"Okay",
+                    }).then ((result)=>{
+                         if(result.isConfirmed){
+                              navigate("/Login");
+                         }
+                    });
+                    console.log("registered Successfully");
+               }
+          })
+        }
      }
      
      

@@ -1,13 +1,13 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db.js");
+const User = require("./model/user.model.js");
 dotenv.config();
-
-import connectDB from "./config/db.js";
+connectDB();
 
 // Server//
-
 const app=express();
 const PORT=process.env.PORT || 5000;
 
@@ -20,7 +20,24 @@ app.use(cors(
     }
 ));
 app.use(express.json());
+//
+const SendData=require("./controller/dummyInserts");
+app.post("/Register",SendData);
 
+const validateUser=require("./controller/validUser.js");
+app.post("/login",validateUser);
+
+
+
+
+
+
+// ---------------------------------------------------------------------
+//App listen//
+app.listen(PORT,()=>{
+    console.log(`Server running on https://localhost:${PORT}`);
+})  
+//----------------------------------------------------------------------
 
 
 //Dummy DB
@@ -47,9 +64,5 @@ app.use(express.json());
 //     }
 //     })
 
-    app.listen(PORT,()=>{
-        connectDB();
-        console.log(`Server running on https://localhost:${PORT}`);
-    })
-
+   
 
