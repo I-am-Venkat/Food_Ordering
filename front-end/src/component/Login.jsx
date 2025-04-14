@@ -13,9 +13,11 @@ const Login = () => {
     password: ""
   });
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,11 +60,13 @@ const Login = () => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Server Error",
+        title: "Error",
         text: error.response?.data?.message || "Something went wrong. Please try again later.",
       });
     }
   };
+
+  
 
   return (
     <div className={styles.container} style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
