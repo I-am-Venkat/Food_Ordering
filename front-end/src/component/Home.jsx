@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import logo from '../img/favicon.jpg';
+import logo from '../img/favicon.png';
 
 
 const pages = ['Categories', 'Restaurants', 'About us', 'Contact us'];
@@ -165,7 +165,7 @@ const Home = () => {
             { icon: '⭐', title: 'Rated by Users' }
           ].map((item, index) => (
             <div className="col-md-3 mb-4" key={index}>
-              <div className="p-4 border rounded" style={{ backgroundColor: '#3B82F6' }}>
+              <div className="p-4 border rounded" style={{ backgroundColor: '#123458' , color:'white'}} >
                 <h2>{item.icon}</h2>
                 <h5>{item.title}</h5>
               </div>

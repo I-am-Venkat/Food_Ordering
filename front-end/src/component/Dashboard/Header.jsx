@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 // import logoImage from "../Images/logo-2.png";
-import logo from "../../img/favicon.jpg";
+import logo from "../../img/favicon.png";
 
 
 const Header = ({ setIsSidebarOpen }) => {
