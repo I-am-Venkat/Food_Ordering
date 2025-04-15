@@ -30,6 +30,7 @@ const restaurantSchema=new mongoose.Schema({
     contactNumber:{
         type:String,
         required:true,
+        unique:true,
         minlength:10,
         maxlength:10
     },

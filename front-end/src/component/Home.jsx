@@ -1,13 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar, Box, Toolbar, IconButton, Typography, Menu, MenuItem, Container, Avatar,
   Button, Tooltip
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../img/favicon.jpg';
 
@@ -24,27 +23,27 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
+  const navigate=useNavigate();
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#1c1c1c' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#123458' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: '#FFD700' }} /> */}
-
-        <img
-          src={logo}
-          alt="Foodie Logo"
-          style={{ height: '40px', marginRight: '10px' }}
-        />
+          <img
+            src={logo}
+            alt="Foodie Logo"
+            style={{ height: '40px', marginRight: '10px' }}
+          />
 
           <Typography variant="h6" noWrap component="a" href="#"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.2rem', color: '#FFD700', textDecoration: 'none' }}>
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.2rem', color: '#FFF', textDecoration: 'none' }}>
             HOME
           </Typography>
 
           {/* Mobile Nav */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
-              <MenuIcon sx={{ color: '#FFD700' }} />
+              <MenuIcon sx={{ color: '#FFF' }} />
             </IconButton>
             <Menu anchorEl={anchorElNav} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
               {pages.map((page) => (
@@ -59,14 +58,14 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button key={page} onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: '#FFD700', fontWeight: 600, '&:hover': { backgroundColor: '#333', color: 'white' } }}>
+                sx={{ my: 2, color: '#FFF', fontWeight: 600, '&:hover': { backgroundColor: '#2563EB', color: 'white' } }}>
                 {page}
               </Button>
             ))}
           </Box>
 
           <Button>
-            <ShoppingCartIcon sx={{ mr: 3, fontSize: 30, color: '#FFD700' }} />
+            <ShoppingCartIcon sx={{ mr: 3, fontSize: 30, color: '#FFF' }} />
           </Button>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -76,10 +75,19 @@ function ResponsiveAppBar() {
             </Tooltip>
             <Menu anchorEl={anchorElUser} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    if (setting === 'Logout') {
+                      navigate('/login');
+                    }
+                  }}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+
             </Menu>
           </Box>
         </Toolbar>
@@ -89,50 +97,36 @@ function ResponsiveAppBar() {
 }
 
 const Home = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   return (
     <>
       <ResponsiveAppBar />
 
-      {/* Carousel */}
-      <div id="carouselExample" className="carousel slide" style={{ maxWidth: '90%', margin: '2rem auto', borderRadius: '12px', overflow: 'hidden' }}>
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img src="https://source.unsplash.com/1200x400/?food" className="d-block w-100" alt="..." />
-          </div>
-          <div className="carousel-item">
-            <img src="https://source.unsplash.com/1200x400/?restaurant" className="d-block w-100" alt="..." />
-          </div>
-          <div className="carousel-item">
-            <img src="https://source.unsplash.com/1200x400/?cooking" className="d-block w-100" alt="..." />
-          </div>
-        </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true" />
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true" />
-          <span className="visually-hidden">Next</span>
-        </button>
-      </div>
-
       {/* Hero Section */}
-      <section className="text-center py-5 bg-light">
+      <section
+        className={`text-center py-5 ${loaded ? 'fade-in' : ''}`}
+        style={{ backgroundColor: '#D4C9BE', color: '#3C3D37' }}
+      >
         <h2 style={{ fontWeight: '700' }}>Delicious food, delivered to you!</h2>
         <p>Experience the best food from your favorite restaurants in just a few clicks.</p>
-        <Button variant="contained" sx={{ backgroundColor: '#FFD700', color: '#000', mt: 2 }}>Order Now</Button>
+        <Button variant="contained" sx={{ backgroundColor: '#222222', color: 'white', mt: 2 }}>Order Now</Button>
       </section>
 
       {/* Popular Categories */}
-      <section className="container text-center py-5">
-        <h3 className="mb-4">Popular Categories</h3>
+      <section className={`container text-center py-5 ${loaded ? 'fade-in' : ''}`}>
+        <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Popular Categories</h3>
         <div className="row">
           {['Pizza', 'Burger', 'Sushi', 'Dessert'].map((item, idx) => (
             <div className="col-md-3 mb-4" key={idx}>
               <div className="card h-100 shadow-sm">
                 <img src={`https://source.unsplash.com/300x200/?${item}`} className="card-img-top" alt={item} />
                 <div className="card-body">
-                  <h5 className="card-title">{item}</h5>
+                  <h5 className="card-title" style={{ color: '#2563EB' }}>{item}</h5>
                 </div>
               </div>
             </div>
@@ -141,16 +135,16 @@ const Home = () => {
       </section>
 
       {/* Featured Restaurants */}
-      <section className="bg-dark text-white py-5">
+      <section className="bg-[#1D4ED8] text-white py-5">
         <div className="container text-center">
-          <h3 className="mb-4">Featured Restaurants</h3>
+          <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Featured Restaurants</h3>
           <div className="row">
             {[1, 2, 3].map((r) => (
               <div className="col-md-4 mb-4" key={r}>
                 <div className="card text-dark h-100">
                   <img src={`https://source.unsplash.com/400x250/?restaurant,food,${r}`} className="card-img-top" alt="Restaurant" />
                   <div className="card-body">
-                    <h5 className="card-title">Restaurant {r}</h5>
+                    <h5 className="card-title">{`Restaurant ${r}`}</h5>
                     <p className="card-text">Top rated dishes delivered fresh to your doorstep.</p>
                   </div>
                 </div>
@@ -162,7 +156,7 @@ const Home = () => {
 
       {/* Why Choose Us */}
       <section className="container py-5 text-center">
-        <h3 className="mb-4">Why Choose Us?</h3>
+        <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Why Choose Us?</h3>
         <div className="row">
           {[
             { icon: '🚀', title: 'Fast Delivery' },
@@ -171,7 +165,7 @@ const Home = () => {
             { icon: '⭐', title: 'Rated by Users' }
           ].map((item, index) => (
             <div className="col-md-3 mb-4" key={index}>
-              <div className="p-4 border rounded">
+              <div className="p-4 border rounded" style={{ backgroundColor: '#3B82F6' }}>
                 <h2>{item.icon}</h2>
                 <h5>{item.title}</h5>
               </div>
@@ -183,7 +177,7 @@ const Home = () => {
       {/* Customer Reviews */}
       <section className="bg-light py-5">
         <div className="container text-center">
-          <h3 className="mb-4">What Our Customers Say</h3>
+          <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>What Our Customers Say</h3>
           <div className="row">
             {[1, 2, 3].map((r) => (
               <div className="col-md-4 mb-4" key={r}>
@@ -198,11 +192,12 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-dark text-white py-4 text-center">
-        <p className="mb-0">&copy; 2025 Online Food Delivery. All rights reserved.</p>
+      <footer className="bg-[#1E40AF] text-white py-4 text-center" style={{ backgroundColor: '#ECDFCC' }}>
+        <p style={{ color: '#3C3D37', fontWeight: 'bolder' }} className="mb-0">&copy; 2025 Online Food Delivery. All rights reserved.</p>
       </footer>
     </>
   );
 };
 
 export default Home;
+
