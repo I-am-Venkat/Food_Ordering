@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Box } from "@mui/material";
 import "./AdminDashboard.css";
-import Cards from './DashboardCards'
+import Cards from './DashboardCards';
 import AddIcon from '@mui/icons-material/Add';
 
 const AdminDashboard = () => {

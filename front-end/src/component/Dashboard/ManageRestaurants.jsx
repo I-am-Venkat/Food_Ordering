@@ -2,276 +2,247 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Paper';
-
-
-
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from 'axios';
 
 const columns = [
-  { field: 'id', headerName: 'Restaurant ID', width: 200 },
-  { field: 'RestaurantName', headerName: 'Restaurant Name', width: 500 },
-  { field: 'City', headerName: 'City', width: 150 },
-  {
-    field: 'OwnerName',
-    headerName: 'Owner Name',
-    width: 300,
-  },
-  {
-    field: 'ContactNumber',
-    headerName: 'Contact Number',
-    type: 'mobilenumber',
-    width: 150,
-  },
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
+  { field: 'categories', headerName: 'Categories', width: 150 },
+  { field: 'city', headerName: 'City', width: 130 },
+  { field: 'pincode', headerName: 'Pincode', width: 100 },
+  { field: 'contactNumber', headerName: 'Contact Number', width: 150 },
+  { field: 'ownerName', headerName: 'Owner Name', width: 200 },
+  { field: 'email', headerName: 'Email', width: 200 },
 ];
 
 const rows = [
-  { id: 1, RestaurantName: 'Maaran parotta kadai', City: 'Tirunelveli', OwnerName: 'Maaran', ContactNumber: 9874563210 },
-  { id: 2, RestaurantName: 'A1 parotta stall', City: 'Tirunelveli', OwnerName: 'Riyaaz', ContactNumber: 9563147852 },
-  { id: 3, RestaurantName: 'Vairamaaligai', City: 'Tirunelveli', OwnerName: 'Vairam', ContactNumber: 9445678901 },
-  { id: 4, RestaurantName: 'Stark', City: 'Arya', OwnerName: 'Aryan', ContactNumber: 9876543210 },
-  { id: 5, RestaurantName: 'Targaryen', City: 'Daenerys', OwnerName: 'Daenerys', ContactNumber: 9964237845 },
-  { id: 6, RestaurantName: 'Melisandre', City: 'King’s Landing', OwnerName: 'Melisandre', ContactNumber: 9856321470 },
-  { id: 7, RestaurantName: 'Clifford', City: 'Ferrara', OwnerName: 'Clifford', ContactNumber: 9345678901 },
-  { id: 8, RestaurantName: 'Frances', City: 'Rossini', OwnerName: 'Francesca', ContactNumber: 9012345678 },
-  { id: 9, RestaurantName: 'Roxie', City: 'Harvey', OwnerName: 'Roxanne', ContactNumber: 9123456789 }
+  { id: 1, restaurantName: 'Saravana Bhavan', categories: 'Veg', city: 'Chennai', pincode: 600001, contactNumber: 9876543210, ownerName: 'Ravi Kumar', email: 'ravi@example.com' },
+  { id: 2, restaurantName: 'Barbeque Nation', categories: 'Non-Veg', city: 'Coimbatore', pincode: 641001, contactNumber: 9876543211, ownerName: 'Priya Sharma', email: 'priya@example.com' },
+  { id: 3, restaurantName: 'A2B', categories: 'Veg', city: 'Salem', pincode: 636007, contactNumber: 9876543212, ownerName: 'Arun Babu', email: 'arun@example.com' },
+  { id: 4, restaurantName: 'Thalappakatti', categories: 'Non-Veg', city: 'Erode', pincode: 638001, contactNumber: 9876543213, ownerName: 'Deepa Rani', email: 'deepa@example.com' },
 ];
 
-
-const paginationModel = { page: 0, pageSize: 5 };
-
 const DataTable = () => {
+  const [formData, setFormData] = useState({
+    restaurantName: '',
+    categories: [],
+    address: '',
+    city: '',
+    pincode: '',
+    contactNumber: '',
+    ownerName: '',
+    email: ''
+  });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setFormData((prev) => ({ ...prev, categories: [...prev.categories, value] }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        categories: prev.categories.filter((cat) => cat !== value)
+      }));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:5000/addRestaurants", formData);
+
+      if (response.data.success) {
+        Swal.fire({
+          title: "Restaurant Added!",
+          icon: "success",
+          confirmButtonText: "Okay"
+        });
+        setFormData({
+          restaurantName: '',
+          categories: [],
+          address: '',
+          city: '',
+          pincode: '',
+          contactNumber: '',
+          ownerName: '',
+          email: ''
+        });
+        setShowModal(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed to Add",
+          text: response.data.message || "Error while adding restaurant",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.response?.data?.message || "Something went wrong.",
+      });
+    }
+  };
+
   return (
-
     <>
-      <div className="addRestaurantDiv" style={{
-        marginTop: "2%",
-        padding: '10px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+      <Box height={400} width="100%" p={2}>
+      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 px-4">
+  <h2>Restaurants</h2>
+  <button className="btn btn-primary" onClick={() => setShowModal(true)}>Add Restaurant</button>
+</div>
 
-      }}>
-        <div style={{ marginLeft: "5%" }}> <h2>Restaurants</h2> </div>
-        <div style={{ marginRight: "5%" }}>
-          <button
-            className="btn btn-dark"
-            data-bs-toggle="modal"
-            data-bs-target="#myModal"
-            style={{ backgroundColor: "#0d6efd", color: "white", borderColor: "#0d6efd" }}
-          >
-            Add Restaurant
-          </button>
-          {/* <Button variant="contained" id="addResBtn">Add Restaurant</Button> */}
-        </div>
-      </div>
-      {/* Add Restaurant Modal */}
-      <div
-        className="modal fade"
-        id="myModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg modal-dialog-centered">
-          {/* Centered and Large Modal */}
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Add Restaurant
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
 
-            {/* Modal Body */}
-            <div className="modal-body">
-              <form>
-                <div className="row">
-                  {/* First Row - Two Inputs */}
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="resName" className="form-label">
-                      Restaurant Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="resName"
-                      placeholder="Enter Restaurant Name"
-                      id="resName"
-                      required
-                    />
-                  </div>
 
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="category" className="form-label">
-                      Categories
-                    </label>
-                    <br />
+        <Paper>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </Paper>
+      </Box>
 
-                    <div className="col-md-6 mb-3">
-                      <input class="form-check-input" type="checkbox" value="" id="veg" required />
-                      <label class="form-check-label" for="veg">
-                        &nbsp;&nbsp;Veg
-                      </label>
-
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                      <input class="form-check-input" type="checkbox" value="" id="nonVeg" />
-                      <label class="form-check-label" for="nonVeg">
-                        &nbsp;&nbsp;Non-Veg
-                      </label>
+      {showModal && (
+        <div className="modal show fade d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div className="modal-content">
+              <form onSubmit={handleSubmit}>
+                <div className="modal-header">
+                  <h5 className="modal-title">Add Restaurant</h5>
+                  <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                </div>
+                <div className="modal-body">
+                  <div className="row mb-3">
+                    <div className="col-md-6">
+                      <label className="form-label">Restaurant Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="restaurantName"
+                        value={formData.restaurantName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="form-label">Categories</label><br />
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="Veg"
+                          checked={formData.categories.includes('Veg')}
+                          onChange={handleCategoryChange}
+                        />
+                        <label className="form-check-label">Veg</label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="Non-Veg"
+                          checked={formData.categories.includes('Non-Veg')}
+                          onChange={handleCategoryChange}
+                        />
+                        <label className="form-check-label">Non-Veg</label>
+                      </div>
                     </div>
                   </div>
-
-
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="address" className="form-label">
-                      Address
-                    </label>
-                    <input
-                      type="text"
+                  <div className="mb-3">
+                    <label className="form-label">Address</label>
+                    <textarea
                       className="form-control"
                       name="address"
-                      placeholder="Enter Restaurant Address"
-                      id="address"
+                      value={formData.address}
+                      onChange={handleChange}
                       required
                     />
                   </div>
-
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="city" className="form-label">
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="city"
-                      placeholder="Enter Restaurant City"
-                      id="city"
-                      required
-                    />
-                  </div>
-
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="pincode" className="form-label">
-                        Pincode
-                      </label>
+                  <div className="row mb-3">
+                    <div className="col-md-4">
+                      <label className="form-label">City</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <label className="form-label">Pincode</label>
                       <input
                         type="text"
                         className="form-control"
                         name="pincode"
-                        placeholder="Enter pincode"
-                        id="pincode"
+                        value={formData.pincode}
+                        onChange={handleChange}
                         required
                       />
                     </div>
-
-
-                    {/* <div className="row"> */}
-                    {/* Second Row - Two More Inputs */}
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="ownerName" className="form-label">
-                        Owner Name
-                      </label>
+                    <div className="col-md-4">
+                      <label className="form-label">Contact Number</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="contactNumber"
+                        value={formData.contactNumber}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <div className="col-md-6">
+                      <label className="form-label">Owner Name</label>
                       <input
                         type="text"
                         className="form-control"
                         name="ownerName"
-                        placeholder="Enter Owner Name"
-                        id="ownerName"
+                        value={formData.ownerName}
+                        onChange={handleChange}
                         required
                       />
                     </div>
-
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="contact" className="form-label">
-                        Contact Number
-                      </label>
-                      <input
-                        type="phonenumber"
-                        className="form-control"
-                        name="contact"
-                        placeholder="Enter Contact Number"
-                        id="contact"
-                        minLength="10"
-                        maxLength="10"
-                        required
-                      />
-                    </div>
-
-
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="email" className="form-label">
-                        Email
-                      </label>
+                    <div className="col-md-6">
+                      <label className="form-label">Email</label>
                       <input
                         type="email"
                         className="form-control"
                         name="email"
-                        placeholder="Enter Email ID"
-                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
                       />
                     </div>
-
-
-
-                    <div className="btnContainer" 
-                    style={{
-                      display:"flex" ,
-                      justifyContent:"space-between",
-                    }}
-                    >
-
-                      <div classname="col-md-6 mb-3">
-                        <input type="reset" class="btn btn-primary btn-sm" value="Clear" style={{ backgroundColor: "#D84040" ,color:"white", marginLeft:"20px" ,width:"85px", borderColor:"#D84040"}}/>
-                          
-                        {/* </button> */}
-                      </div>
-
-					  <div classname="col-md-6 mb-3">
-                        <input type="submit" class="btn btn-primary btn-sm" value="Add" style={{ backgroundColor: "#0d6efd" ,color:"white", marginLeft:"20px" ,width:"85px",borderColor:"#0d6efd"}}/>
-                          
-                        {/* </button> */}
-                      </div>
-
-
-                    </div>
-
                   </div>
-
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                  <button type="submit" className="btn btn-primary">Add Restaurant</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-      </div>
-
-      <Box sx={{
-        width: "90vw",
-        marginTop: "4%",
-        margin: "50px auto ",
-        display: "flex",
-        justifyContent: "center", // Centers horizontally
-        alignItems: "center"
-      }}>
-        <Paper sx={{ height: 400, width: '100%' }}>
-          <DataGrid
-
-            rows={rows}
-            columns={columns}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            sx={{ border: 0 }}
-          />
-        </Paper>
-      </Box>
+      )}
     </>
   );
-}
+};
+
 export default DataTable;

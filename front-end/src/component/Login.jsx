@@ -44,7 +44,7 @@ const Login = () => {
           confirmButtonText: "Okay"
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/Dashboard/AdminDashboard");
+            navigate("/Home");
           }
         });
 

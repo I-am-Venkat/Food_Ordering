@@ -27,8 +27,8 @@ app.post("/Register",SendData);
 const validateUser=require("./controller/validUser.js");
 app.post("/login",validateUser);
 
-
-
+const addRestaurant=require("./controller/addRestaurants");
+app.post("/addRestaurants",addRestaurant);
 
 
 
@@ -38,31 +38,4 @@ app.listen(PORT,()=>{
     console.log(`Server running on https://localhost:${PORT}`);
 })  
 //----------------------------------------------------------------------
-
-
-//Dummy DB
-
-// const users=[
-//     {mobilenumber:"9090909090",password:"sathish@123"},
-//     {mobilenumber:"8825780899",password:"admin@123"}
-// ];
-
-// app.get("/",(req,res)=>{
-//     res.send("Hello World !");
-// })
-
-// app.post("/login",(req,res)=>{
-//     const {mobilenumber,password}=req.body;
-
-//     const user=users.find(u=>u.mobilenumber==mobilenumber && u.password==password);
-        
-//     if(user){
-//         res.json({success:true,msg:"Login Successfull"});
-//     }
-//     else{
-//         res.json({success:false,msg:"Invalid"});
-//     }
-//     })
-
-   
 
