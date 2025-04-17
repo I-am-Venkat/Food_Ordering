@@ -5,6 +5,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 // import logoImage from "../Images/logo-2.png";
 import logo from "../../img/favicon.png";
+import {Link} from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
 const Header = ({ setIsSidebarOpen }) => {
@@ -40,6 +42,11 @@ const Header = ({ setIsSidebarOpen }) => {
         <IconButton color="inherit">
           <AccountCircle />
         </IconButton>
+        <Link to="/Login">
+                    <IconButton color="black">
+                      <LogoutIcon />
+                    </IconButton>
+        </Link>
       </Toolbar>
     </AppBar>
   );

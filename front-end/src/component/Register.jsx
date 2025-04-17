@@ -78,10 +78,10 @@ const Register = () => {
         <div className="row justify-content-center align-items-center">
 
           <div className="col-md-6 text-center mb-4" >
-            <h1 style={{ color: "#e74c3c", fontSize: "40px",fontWeight: "700", fontFamily: "cursive", textAlign:"left"}}>
+            <h1 className="animate__backInLeft" style={{ color: "#e74c3c", fontSize: "40px",fontWeight: "700", fontFamily: "cursive", textAlign:"left"}}>
               Join & Satisfy Your Cravings!
             </h1>
-            <p style={{ color: "#7f8c8d", fontSize: "18px" ,textAlign:"left"}}>
+            <p  style={{ color: "#7f8c8d", fontSize: "18px" ,textAlign:"left"}}>
               Sign up and get your favorite food delivered in minutes 🍔🍕
             </p>
           </div>

@@ -9,6 +9,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../img/favicon.png';
+import pizza from '../img/pizza.jpg'
 
 
 const pages = ['Categories', 'Restaurants', 'About us', 'Contact us'];
@@ -124,7 +125,8 @@ const Home = () => {
           {['Pizza', 'Burger', 'Sushi', 'Dessert'].map((item, idx) => (
             <div className="col-md-3 mb-4" key={idx}>
               <div className="card h-100 shadow-sm">
-                <img src={`https://source.unsplash.com/300x200/?${item}`} className="card-img-top" alt={item} />
+                <img src={`pizza${item}`} className="card-img-top" alt={item} />
+                {/* `https://source.unsplash.com/300x200/? */}
                 <div className="card-body">
                   <h5 className="card-title" style={{ color: '#2563EB' }}>{item}</h5>
                 </div>

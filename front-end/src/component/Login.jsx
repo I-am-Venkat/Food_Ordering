@@ -123,6 +123,15 @@ const Login = () => {
                   </button>
                 </div>
 
+                <div className="text-center mb-2">
+
+                  <Link to="/AdminLogin"  
+                      className="btn btn-outline-secondary" 
+                      style={{ borderRadius: "12px", fontWeight: "500" }}>
+                      🔐 Admin Login
+                  </Link>
+                </div>
+
                 <div className="text-center">
                   <label style={{ color: "#7f8c8d" }}>
                     Don't have an account?{" "}

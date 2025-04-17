@@ -72,3 +72,20 @@ h1{
     width:130px;
     margin-bottom:45px;
 }
+
+
+.animate__backInLeft{
+    animation-name: backInLeft;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+@keyframes backInLeft {
+    0% {
+        transform: translateX(-1000px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
