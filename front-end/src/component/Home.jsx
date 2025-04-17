@@ -9,8 +9,12 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../img/favicon.png';
-import pizza from '../img/pizza.jpg'
 
+// ✅ Local category images
+import pizzaImg from '../img/pizza.jpg';
+import burgerImg from '../img/burger.jpg';
+import sushiImg from '../img/sushi.jpg';
+import dessertImg from '../img/dessert.jpg';
 
 const pages = ['Categories', 'Restaurants', 'About us', 'Contact us'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -24,7 +28,7 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#123458' }}>
@@ -37,7 +41,10 @@ function ResponsiveAppBar() {
           />
 
           <Typography variant="h6" noWrap component="a" href="#"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.2rem', color: '#FFF', textDecoration: 'none' }}>
+            sx={{
+              mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace',
+              fontWeight: 700, letterSpacing: '.2rem', color: '#FFF', textDecoration: 'none'
+            }}>
             HOME
           </Typography>
 
@@ -88,7 +95,6 @@ function ResponsiveAppBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-
             </Menu>
           </Box>
         </Toolbar>
@@ -103,6 +109,14 @@ const Home = () => {
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  // ✅ Local categories array with images
+  const categories = [
+    { name: 'Pizza', img: pizzaImg },
+    { name: 'Burger', img: burgerImg },
+    { name: 'Sushi', img: sushiImg },
+    { name: 'Dessert', img: dessertImg },
+  ];
 
   return (
     <>
@@ -122,13 +136,12 @@ const Home = () => {
       <section className={`container text-center py-5 ${loaded ? 'fade-in' : ''}`}>
         <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Popular Categories</h3>
         <div className="row">
-          {['Pizza', 'Burger', 'Sushi', 'Dessert'].map((item, idx) => (
+          {categories.map((item, idx) => (
             <div className="col-md-3 mb-4" key={idx}>
               <div className="card h-100 shadow-sm">
-                <img src={`pizza${item}`} className="card-img-top" alt={item} />
-                {/* `https://source.unsplash.com/300x200/? */}
+                <img src={item.img} className="card-img-top" alt={item.name} />
                 <div className="card-body">
-                  <h5 className="card-title" style={{ color: '#2563EB' }}>{item}</h5>
+                  <h5 className="card-title" style={{ color: '#2563EB' }}>{item.name}</h5>
                 </div>
               </div>
             </div>
@@ -167,7 +180,7 @@ const Home = () => {
             { icon: '⭐', title: 'Rated by Users' }
           ].map((item, index) => (
             <div className="col-md-3 mb-4" key={index}>
-              <div className="p-4 border rounded" style={{ backgroundColor: '#123458' , color:'white'}} >
+              <div className="p-4 border rounded" style={{ backgroundColor: '#123458', color: 'white' }} >
                 <h2>{item.icon}</h2>
                 <h5>{item.title}</h5>
               </div>
@@ -202,4 +215,3 @@ const Home = () => {
 };
 
 export default Home;
-
