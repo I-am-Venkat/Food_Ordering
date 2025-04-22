@@ -1,29 +1,10 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios';
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
-  { field: 'categories', headerName: 'Categories', width: 150 },
-  { field: 'city', headerName: 'City', width: 130 },
-  { field: 'pincode', headerName: 'Pincode', width: 100 },
-  { field: 'contactNumber', headerName: 'Contact Number', width: 150 },
-  { field: 'ownerName', headerName: 'Owner Name', width: 200 },
-  { field: 'email', headerName: 'Email', width: 200 },
-];
-
-const rows = [
-  { id: 1, restaurantName: 'Saravana Bhavan', categories: 'Veg', city: 'Chennai', pincode: 600001, contactNumber: 9876543210, ownerName: 'Ravi Kumar', email: 'ravi@example.com' },
-  { id: 2, restaurantName: 'Barbeque Nation', categories: 'Non-Veg', city: 'Coimbatore', pincode: 641001, contactNumber: 9876543211, ownerName: 'Priya Sharma', email: 'priya@example.com' },
-  { id: 3, restaurantName: 'A2B', categories: 'Veg', city: 'Salem', pincode: 636007, contactNumber: 9876543212, ownerName: 'Arun Babu', email: 'arun@example.com' },
-  { id: 4, restaurantName: 'Thalappakatti', categories: 'Non-Veg', city: 'Erode', pincode: 638001, contactNumber: 9876543213, ownerName: 'Deepa Rani', email: 'deepa@example.com' },
-];
 
 const DataTable = () => {
   const [formData, setFormData] = useState({
@@ -34,10 +15,67 @@ const DataTable = () => {
     pincode: '',
     contactNumber: '',
     ownerName: '',
-    email: ''
-  });
+    email: '',
+
+
+  }
+  );
+
+  const handleEdit = (restaurant) => {
+    setFormData({
+      restaurantName: restaurant.restaurantName,
+      categories: restaurant.categories,
+      address: restaurant.address || '',
+      city: restaurant.city,
+      pincode: restaurant.pincode,
+      contactNumber: restaurant.contactNumber,
+      ownerName: restaurant.ownerName,
+      email: restaurant.email,
+    });
+    setShowModal(true);
+  };
+
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
+    { field: 'categories', headerName: 'Categories', width: 150 },
+    { field: 'city', headerName: 'City', width: 130 },
+    { field: 'pincode', headerName: 'Pincode', width: 100 },
+    { field: 'contactNumber', headerName: 'Contact Number', width: 150 },
+    { field: 'ownerName', headerName: 'Owner Name', width: 200 },
+    { field: 'email', headerName: 'Email', width: 200 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <button
+          className="btn btn-sm btn-outline-primary"
+          onClick={() => handleEdit(params.row)}
+        >
+          <i className="bi bi-pencil-fill me-1"></i> Edit
+        </button>
+      ),
+    }
+  ];
+
+
+
+  const rows = [
+    { id: 1, restaurantName: 'Saravana Bhavan', categories: 'Veg', city: 'Chennai', pincode: 600001, contactNumber: 9876543210, ownerName: 'Ravi Kumar', email: 'ravi@example.com' },
+    { id: 2, restaurantName: 'Barbeque Nation', categories: 'Non-Veg', city: 'Coimbatore', pincode: 641001, contactNumber: 9876543211, ownerName: 'Priya Sharma', email: 'priya@example.com' },
+    { id: 3, restaurantName: 'A2B', categories: 'Veg', city: 'Salem', pincode: 636007, contactNumber: 9876543212, ownerName: 'Arun Babu', email: 'arun@example.com' },
+    { id: 4, restaurantName: 'Thalappakatti', categories: 'Non-Veg', city: 'Erode', pincode: 638001, contactNumber: 9876543213, ownerName: 'Deepa Rani', email: 'deepa@example.com' },
+  ];
+
+
 
   const [showModal, setShowModal] = useState(false);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,22 +84,18 @@ const DataTable = () => {
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
-    if (checked) {
-      setFormData((prev) => ({ ...prev, categories: [...prev.categories, value] }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        categories: prev.categories.filter((cat) => cat !== value)
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      categories: checked
+        ? [...prev.categories, value]
+        : prev.categories.filter((cat) => cat !== value),
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const response = await axios.post("http://localhost:5000/addRestaurants", formData);
-
       if (response.data.success) {
         Swal.fire({
           title: "Restaurant Added!",
@@ -97,31 +131,57 @@ const DataTable = () => {
 
   return (
     <>
-      <Box height={400} width="100%" p={2}>
-      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 px-4">
-  <h2>Restaurants</h2>
-  <button className="btn btn-primary" onClick={() => setShowModal(true)}>Add Restaurant</button>
-</div>
+      <Box sx={{ background: '#f1f3f6', minHeight: '100vh', padding: '30px' }}>
+        <div className="d-flex justify-content-between align-items-center mb-4 px-2">
+          <h3 className="fw-bold" style={{ color: '#343a40', fontFamily: 'Poppins, sans-serif' }}>
+            🍽️ Restaurants
+          </h3>
+          <button
+            className="btn"
+            style={{
+              backgroundColor: '#0077b6',
+              color: 'white',
+              padding: '8px 20px',
+              fontWeight: '500',
+              borderRadius: '8px',
+              boxShadow: '0px 4px 8px rgba(0,0,0,0.1)'
+            }}
+            onClick={() => setShowModal(true)}
+          >
+            <i className="bi bi-plus-circle me-2"></i> Add Restaurant
+          </button>
+        </div>
 
-
-
-        <Paper>
+        <Paper elevation={4} sx={{ borderRadius: '16px', overflow: 'hidden' }}>
           <DataGrid
             rows={rows}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
             checkboxSelection
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#0077b6',
+                color: 'black',
+                fontSize: '1rem'
+              },
+              '& .MuiDataGrid-row:hover': {
+                backgroundColor: '#f1f1f1',
+              },
+              fontFamily: 'Poppins, sans-serif'
+            }}
+            style={{ height: 420 }}
           />
         </Paper>
       </Box>
 
+      {/* Keep your original modal unchanged */}
       {showModal && (
         <div className="modal show fade d-block" tabIndex="-1" role="dialog">
           <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div className="modal-content">
+            <div className="modal-content shadow">
               <form onSubmit={handleSubmit}>
-                <div className="modal-header">
+                <div className="modal-header text-black">
                   <h5 className="modal-title">Add Restaurant</h5>
                   <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                 </div>
@@ -202,6 +262,8 @@ const DataTable = () => {
                         className="form-control"
                         name="contactNumber"
                         value={formData.contactNumber}
+                        minLength={10}
+                        maxLength={10}
                         onChange={handleChange}
                         required
                       />
@@ -232,16 +294,46 @@ const DataTable = () => {
                     </div>
                   </div>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-                  <button type="submit" className="btn btn-primary">Add Restaurant</button>
+                <div className="modal-footer bg-light">
+                  <button
+                    style={{ marginRight:'520px' }}
+                    type="button"
+                    className="btn btn-outline-danger"
+                    onClick={() => setFormData({
+                      restaurantName: '',
+                      categories: [],
+                      address: '',
+                      city: '',
+                      pincode: '',
+                      contactNumber: '',
+                      ownerName: '',
+                      email: ''
+                    })}
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Add
+                  </button>
                 </div>
+
               </form>
             </div>
           </div>
         </div>
       )}
+
+
     </>
+
+
   );
 };
 

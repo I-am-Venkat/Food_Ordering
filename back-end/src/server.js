@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db.js");
 const User = require("./model/user.model.js");
+const Restaurant = require("./model/restaurant.model.js");
+const Food = require("./model/food.model.js");
 dotenv.config();
 connectDB();
 
@@ -30,7 +32,8 @@ app.post("/login",validateUser);
 const addRestaurant=require("./controller/addRestaurants");
 app.post("/addRestaurants",addRestaurant);
 
-
+const addFood=require("./controller/addFood");
+app.post("/addFood",addFood);
 
 // ---------------------------------------------------------------------
 //App listen//

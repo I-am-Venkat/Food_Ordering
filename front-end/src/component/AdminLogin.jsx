@@ -31,7 +31,7 @@ const AdminLogin = () => {
     }
 
     try {
-      if (formData.username === 'venkat' && formData.password === 'atvenkat@123') {
+      if (formData.username == 'venkat' && formData.password == 'atvenkat@123') {
         Swal.fire({
           title: "Admin Login Successful!",
           icon: "success",
