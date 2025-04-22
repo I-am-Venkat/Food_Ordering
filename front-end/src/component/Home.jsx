@@ -9,6 +9,9 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../img/favicon.png';
+import FoodItems from './FoodItems';
+
+
 
 // ✅ Local category images
 import pizzaImg from '../img/pizza.jpg';
@@ -27,6 +30,7 @@ function ResponsiveAppBar() {
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
 
   const navigate = useNavigate();
 
@@ -105,7 +109,7 @@ function ResponsiveAppBar() {
 
 const Home = () => {
   const [loaded, setLoaded] = useState(false);
-
+  const navigate = useNavigate(); 
   useEffect(() => {
     setLoaded(true);
   }, []);
@@ -129,7 +133,14 @@ const Home = () => {
       >
         <h2 style={{ fontWeight: '700' }}>Delicious food, delivered to you!</h2>
         <p>Experience the best food from your favorite restaurants in just a few clicks.</p>
-        <Button variant="contained" sx={{ backgroundColor: '#222222', color: 'white', mt: 2 }}>Order Now</Button>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: '#222222', color: 'white', mt: 2 }}
+          onClick={() => navigate('/FoodItems')}
+        >
+          Order Now
+        </Button>
+
       </section>
 
       {/* Popular Categories */}
@@ -150,7 +161,7 @@ const Home = () => {
       </section>
 
       {/* Featured Restaurants */}
-      <section className="bg-[#1D4ED8] text-white py-5">
+      {/* <section className="bg-[#1D4ED8] text-white py-5">
         <div className="container text-center">
           <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Featured Restaurants</h3>
           <div className="row">
@@ -167,7 +178,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Why Choose Us */}
       <section className="container py-5 text-center">

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const DataTable = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,8 @@ const DataTable = () => {
 
   }
   );
+
+  const navigate=useNavigate();
 
   const handleEdit = (restaurant) => {
     setFormData({
@@ -129,10 +132,33 @@ const DataTable = () => {
     }
   };
 
+  const goBackToAdminDashboard = () => {
+    navigate('/Dashboard/AdminDashboard');
+    // window.location.href = '/Dashboard/AdminDashboard';
+  }
+
   return (
     <>
-      <Box sx={{ background: '#f1f3f6', minHeight: '100vh', padding: '30px' }}>
+      <Box sx={{ background: '#f1f3f6', minHeight: '100vh', padding: '50px' }}>
         <div className="d-flex justify-content-between align-items-center mb-4 px-2">
+          <div className="mb-3 px-2">
+            <button
+              className="btn btn-light border d-flex align-items-center"
+              onClick={goBackToAdminDashboard}
+              style={{
+                fontWeight: '500',
+                borderRadius: '8px',
+                padding: '6px 12px',  
+                fontFamily: 'Poppins, sans-serif',
+                boxShadow: '0px 2px 6px rgba(0,0,0,0.1)'
+              }}
+            >
+              <span role="img" aria-label="back" style={{ fontSize: '1.4rem', marginRight: '8px' }}>
+                🔙
+              </span>
+            </button>
+          </div>
+
           <h3 className="fw-bold" style={{ color: '#343a40', fontFamily: 'Poppins, sans-serif' }}>
             🍽️ Restaurants
           </h3>
@@ -296,7 +322,7 @@ const DataTable = () => {
                 </div>
                 <div className="modal-footer bg-light">
                   <button
-                    style={{ marginRight:'520px' }}
+                    style={{ marginRight: '520px' }}
                     type="button"
                     className="btn btn-outline-danger"
                     onClick={() => setFormData({

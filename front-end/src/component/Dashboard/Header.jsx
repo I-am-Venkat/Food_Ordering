@@ -39,9 +39,9 @@ const Header = ({ setIsSidebarOpen }) => {
         {/* </Button> */}
 
         {/* Profile Icon */}
-        <IconButton color="inherit">
+        {/* <IconButton color="inherit">
           <AccountCircle />
-        </IconButton>
+        </IconButton> */}
         <Link to="/Login">
                     <IconButton color="black">
                       <LogoutIcon />
