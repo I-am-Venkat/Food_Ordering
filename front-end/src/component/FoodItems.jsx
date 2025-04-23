@@ -7,8 +7,8 @@ import PaneerPizza from '../img/Paneer_Pizza.jpg';
 import CheeseBurger from '../img/Cheese_Burger.jpg';
 import ChickenBurger from '../img/Chicken_Burger.jpg';
 import VeggieBurger from '../img/Veggie_Burger.jpg';
-// import SpicyChickenBurger from '../img/Spicy_Chicken_Burger.jpeg';
-// import SpicyTunaRoll from '../img/Spicy_Tuna_Roll.jpeg';
+import SpicyChickenBurger from '../img/Spicy_Chicken_Burger.jpg';
+import SpicyTunaRoll from '../img/Spicy_Tuna_Roll.jpg';
 // import CaliforniaRoll from '../img/California_Roll.jpeg';
 // import VegetableRoll from '../img/Vegetable_Roll.jpeg';
 // import ButterChicken from '../img/Butter_Chicken.jpeg';
@@ -33,10 +33,10 @@ const dummyFoodData = [
   { id: 6, name: 'Cheese Burger', category: 'Burger', price: 149, image:CheeseBurger },
   { id: 7, name: 'Chicken Burger', category: 'Burger', price: 169, image: ChickenBurger },
   { id: 8, name: 'Veggie Burger', category: 'Burger', price: 129, image:VeggieBurger },
-  { id: 9, name: 'Spicy Chicken Burger', category: 'Burger', price: 179, image: 'https://source.unsplash.com/random/300x200/?spicy,chicken,burger' },
+  { id: 9, name: 'Spicy Chicken Burger', category: 'Burger', price: 179, image: SpicyChickenBurger },
 
   // Sushi (3 items)
-  { id: 10, name: 'Spicy Tuna Roll', category: 'Sushi', price: 249, image: 'https://source.unsplash.com/random/300x200/?spicy,tuna,sushi' },
+  { id: 10, name: 'Spicy Tuna Roll', category: 'Sushi', price: 249, image: SpicyTunaRoll },
   { id: 11, name: 'California Roll', category: 'Sushi', price: 229, image: 'https://source.unsplash.com/random/300x200/?california,roll' },
   { id: 12, name: 'Vegetable Roll', category: 'Sushi', price: 199, image: 'https://source.unsplash.com/random/300x200/?vegetable,sushi' },
 

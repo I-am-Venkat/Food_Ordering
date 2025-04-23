@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../img/favicon.png';
 import FoodItems from './FoodItems';
+import Cart from './Cart';
 
 
 
@@ -76,7 +77,8 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Button>
+          <Button 
+          onClick={()=> navigate("/Cart")}>
             <ShoppingCartIcon sx={{ mr: 3, fontSize: 30, color: '#FFF' }} />
           </Button>
           <Box sx={{ flexGrow: 0 }}>

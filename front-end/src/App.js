@@ -11,6 +11,7 @@ import AdminDashboard from './component/Dashboard/AdminDashboard';
 import ManageRestaurants from "./component/Dashboard/ManageRestaurants";
 import AdminLogin from './component/AdminLogin';
 import FoodItems from './component/FoodItems';
+import Cart from './component/Cart';
 function App() {
   return (
     <Router>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/Dashboard/ManageRestaurants" element={<ManageRestaurants/>}/>
         <Route path="/AdminLogin" element={<AdminLogin/>}/>
         <Route path="/FoodItems" element={<FoodItems/>}/>
+        <Route path="/Cart" element={<Cart/>}/>
       </Routes>
     </Router>
   );
