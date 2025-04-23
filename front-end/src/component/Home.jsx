@@ -125,7 +125,6 @@ const Home = () => {
   return (
     <>
       <ResponsiveAppBar />
-
       {/* Hero Section */}
       <section
         className={`text-center py-5 ${loaded ? 'fade-in' : ''}`}
@@ -136,7 +135,10 @@ const Home = () => {
         <Button
           variant="contained"
           sx={{ backgroundColor: '#222222', color: 'white', mt: 2 }}
-          onClick={() => navigate('/FoodItems')}
+          onClick={() => {
+            const section = document.getElementById('FoodItems');
+            section.scrollIntoView({ behavior: 'smooth' });
+          }}
         >
           Order Now
         </Button>
@@ -160,27 +162,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Restaurants */}
-      {/* <section className="bg-[#1D4ED8] text-white py-5">
-        <div className="container text-center">
-          <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Featured Restaurants</h3>
-          <div className="row">
-            {[1, 2, 3].map((r) => (
-              <div className="col-md-4 mb-4" key={r}>
-                <div className="card text-dark h-100">
-                  <img src={`https://source.unsplash.com/400x250/?restaurant,food,${r}`} className="card-img-top" alt="Restaurant" />
-                  <div className="card-body">
-                    <h5 className="card-title">{`Restaurant ${r}`}</h5>
-                    <p className="card-text">Top rated dishes delivered fresh to your doorstep.</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
+      <section className="container py-5 text-center" id='FoodItems'>
+        <FoodItems/>
+        
 
-      {/* Why Choose Us */}
+
+
+        </section>
       <section className="container py-5 text-center">
         <h3 className="mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>Why Choose Us?</h3>
         <div className="row">

@@ -1,79 +1,157 @@
 import React, { useState } from 'react';
-import { Button } from '@mui/material';
+import MargheritaPizza from '../img/Margherita_Pizza.jpeg';
+import PepperoniPizza from '../img/Pepperoni_Pizza.jpeg';
+import VeggiePizza from '../img/Veggie_Pizza.jpg';
+import BBQChickenPizza from '../img/BBQ_Chicken_Pizza.jpg';
+import PaneerPizza from '../img/Paneer_Pizza.jpg';
+import CheeseBurger from '../img/Cheese_Burger.jpg';
+import ChickenBurger from '../img/Chicken_Burger.jpg';
+import VeggieBurger from '../img/Veggie_Burger.jpg';
+// import SpicyChickenBurger from '../img/Spicy_Chicken_Burger.jpeg';
+// import SpicyTunaRoll from '../img/Spicy_Tuna_Roll.jpeg';
+// import CaliforniaRoll from '../img/California_Roll.jpeg';
+// import VegetableRoll from '../img/Vegetable_Roll.jpeg';
+// import ButterChicken from '../img/Butter_Chicken.jpeg';
+// import PaneerTikka from '../img/Paneer_Tikka.jpeg';
+// import DalMakhani from '../img/Dal_Makhani.jpeg';
+// import VegBiryani from '../img/Veg_Biryani.jpeg';
+// import ChocolateCake from '../img/Chocolate_Cake.jpeg';
+// import Tiramisu from '../img/Tiramisu.jpeg';
+// import GulabJamun from '../img/Gulab_Jamun.jpeg';
+// import IceCreamSundae from '../img/Ice_Cream_Sundae.jpeg';
 
-const sampleFoods = [
-  { id: 1, name: 'Margherita Pizza', price: 250, image: 'https://source.unsplash.com/400x250/?pizza' },
-  { id: 2, name: 'Cheese Burger', price: 180, image: 'https://source.unsplash.com/400x250/?burger' },
-  { id: 3, name: 'Sushi Roll', price: 300, image: 'https://source.unsplash.com/400x250/?sushi' },
-  { id: 4, name: 'Chocolate Cake', price: 150, image: 'https://source.unsplash.com/400x250/?dessert' },
-  { id: 5, name: 'Pasta Alfredo', price: 220, image: 'https://source.unsplash.com/400x250/?pasta' },
-  { id: 6, name: 'Grilled Sandwich', price: 130, image: 'https://source.unsplash.com/400x250/?sandwich' },
-  { id: 7, name: 'Tandoori Chicken', price: 350, image: 'https://source.unsplash.com/400x250/?tandoori' },
-  { id: 8, name: 'Paneer Tikka', price: 200, image: 'https://source.unsplash.com/400x250/?paneer' },
-  { id: 9, name: 'Veg Biryani', price: 170, image: 'https://source.unsplash.com/400x250/?biryani' },
-  { id: 10, name: 'Chicken Biryani', price: 270, image: 'https://source.unsplash.com/400x250/?chickenbiryani' },
-  { id: 11, name: 'Momos', price: 120, image: 'https://source.unsplash.com/400x250/?momos' },
-  { id: 12, name: 'Falafel Wrap', price: 150, image: 'https://source.unsplash.com/400x250/?falafel' },
-  { id: 13, name: 'Idli Sambhar', price: 100, image: 'https://source.unsplash.com/400x250/?idli' },
-  { id: 14, name: 'Dosa', price: 120, image: 'https://source.unsplash.com/400x250/?dosa' },
-  { id: 15, name: 'Butter Naan', price: 40, image: 'https://source.unsplash.com/400x250/?naan' },
-  { id: 16, name: 'Chole Bhature', price: 150, image: 'https://source.unsplash.com/400x250/?cholebhature' },
-  { id: 17, name: 'Vada Pav', price: 60, image: 'https://source.unsplash.com/400x250/?vadapav' },
-  { id: 18, name: 'Pav Bhaji', price: 130, image: 'https://source.unsplash.com/400x250/?pavbhaji' },
-  { id: 19, name: 'Fried Rice', price: 160, image: 'https://source.unsplash.com/400x250/?friedrice' },
-  { id: 20, name: 'Spring Rolls', price: 140, image: 'https://source.unsplash.com/400x250/?springrolls' },
-  { id: 21, name: 'French Fries', price: 100, image: 'https://source.unsplash.com/400x250/?fries' },
-  { id: 22, name: 'Milkshake', price: 90, image: 'https://source.unsplash.com/400x250/?milkshake' },
-  { id: 23, name: 'Ice Cream Sundae', price: 130, image: 'https://source.unsplash.com/400x250/?icecream' },
-  { id: 24, name: 'Onion Rings', price: 110, image: 'https://source.unsplash.com/400x250/?onionrings' },
-  { id: 25, name: 'Hakka Noodles', price: 170, image: 'https://source.unsplash.com/400x250/?hakka' },
-  { id: 26, name: 'Chicken Wings', price: 220, image: 'https://source.unsplash.com/400x250/?wings' },
-  { id: 27, name: 'Nachos', price: 150, image: 'https://source.unsplash.com/400x250/?nachos' },
-  { id: 28, name: 'Tacos', price: 160, image: 'https://source.unsplash.com/400x250/?tacos' },
-  { id: 29, name: 'Pancakes', price: 180, image: 'https://source.unsplash.com/400x250/?pancakes' },
-  { id: 30, name: 'Waffles', price: 200, image: 'https://source.unsplash.com/400x250/?waffles' },
+
+const dummyFoodData = [
+  // Pizza (5 items)
+  { id: 1, name: 'Margherita Pizza', category: 'Pizza', price: 199, image: MargheritaPizza },
+  { id: 2, name: 'Pepperoni Pizza', category: 'Pizza', price: 249, image: PepperoniPizza },
+  { id: 3, name: 'Veggie Pizza', category: 'Pizza', price: 229, image: VeggiePizza },
+  { id: 4, name: 'BBQ Chicken Pizza', category: 'Pizza', price: 279, image: BBQChickenPizza },
+  { id: 5, name: 'Paneer Pizza', category: 'Pizza', price: 239, image: PaneerPizza },
+
+  // Burgers (4 items)
+  { id: 6, name: 'Cheese Burger', category: 'Burger', price: 149, image:CheeseBurger },
+  { id: 7, name: 'Chicken Burger', category: 'Burger', price: 169, image: ChickenBurger },
+  { id: 8, name: 'Veggie Burger', category: 'Burger', price: 129, image:VeggieBurger },
+  { id: 9, name: 'Spicy Chicken Burger', category: 'Burger', price: 179, image: 'https://source.unsplash.com/random/300x200/?spicy,chicken,burger' },
+
+  // Sushi (3 items)
+  { id: 10, name: 'Spicy Tuna Roll', category: 'Sushi', price: 249, image: 'https://source.unsplash.com/random/300x200/?spicy,tuna,sushi' },
+  { id: 11, name: 'California Roll', category: 'Sushi', price: 229, image: 'https://source.unsplash.com/random/300x200/?california,roll' },
+  { id: 12, name: 'Vegetable Roll', category: 'Sushi', price: 199, image: 'https://source.unsplash.com/random/300x200/?vegetable,sushi' },
+
+  // Indian (4 items)
+  { id: 13, name: 'Butter Chicken', category: 'Indian', price: 249, image: 'https://source.unsplash.com/random/300x200/?butter,chicken' },
+  { id: 14, name: 'Paneer Tikka', category: 'Indian', price: 199, image: 'https://source.unsplash.com/random/300x200/?paneer,tikka' },
+  { id: 15, name: 'Dal Makhani', category: 'Indian', price: 179, image: 'https://source.unsplash.com/random/300x200/?dal,makhani' },
+  { id: 16, name: 'Veg Biryani', category: 'Indian', price: 189, image: 'https://source.unsplash.com/random/300x200/?vegetable,biryani' },
+
+  // Desserts (4 items)
+  { id: 17, name: 'Chocolate Cake', category: 'Dessert', price: 99, image: 'https://source.unsplash.com/random/300x200/?chocolate,cake' },
+  { id: 18, name: 'Tiramisu', category: 'Dessert', price: 129, image: 'https://source.unsplash.com/random/300x200/?tiramisu' },
+  { id: 19, name: 'Gulab Jamun', category: 'Dessert', price: 79, image: 'https://source.unsplash.com/random/300x200/?gulab,jamun' },
+  { id: 20, name: 'Ice Cream Sundae', category: 'Dessert', price: 119, image: 'https://source.unsplash.com/random/300x200/?icecream,sundae' },
 ];
 
-const FoodItemsPage = () => {
-  const [cartItems, setCartItems] = useState({});
+const FoodItems = () => {
+  const [search, setSearch] = useState('');
+  const [items, setItems] = useState(
+    dummyFoodData.map(item => ({ ...item, quantity: 0 }))
+  );
 
-  const handleQuantityChange = (id, action) => {
-    setCartItems((prev) => {
-      const currentQty = prev[id]?.quantity || 0;
-      const newQty = action === 'inc' ? currentQty + 1 : Math.max(currentQty - 1, 0);
-
-      if (newQty === 0) {
-        const updated = { ...prev };
-        delete updated[id];
-        return updated;
-      }
-
-      return {
-        ...prev,
-        [id]: { ...sampleFoods.find((item) => item.id === id), quantity: newQty }
-      };
-    });
+  const handleQuantityChange = (id, delta) => {
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(0, item.quantity + delta) }
+          : item
+      )
+    );
   };
 
+  const handleAddToCart = (item) => {
+    if (item.quantity > 0) {
+      alert(`${item.quantity} x ${item.name} added to cart!`);
+    }
+  };
+
+  const handleOrderNow = (item) => {
+    if (item.quantity > 0) {
+      alert(`Order placed for ${item.quantity} x ${item.name}`);
+    }
+  };
+
+  const filteredItems = items.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="container py-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0">Choose Your Favorite Dishes 🍽️</h2>
-        <Button variant="contained" sx={{ backgroundColor: '#123458' }}>Proceed to Checkout</Button>
-      </div>
+    <div className="container py-4">
+      <h3 className="text-center mb-4" style={{ color: '#3C3D37', fontWeight: 'bolder' }}>
+        Eat What You Want
+      </h3>
+
+      <input
+        type="text"
+        className="form-control mb-4"
+        placeholder="Search food items..."
+        width={'50%'}
+        style={{ margin: '0 auto', maxWidth: '400px' }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       <div className="row">
-        {sampleFoods.map((food) => (
-          <div className="col-md-3 mb-4" key={food.id}>
-            <div className="card h-100 shadow-sm">
-              <img src={food.image} className="card-img-top" alt={food.name} />
-              <div className="card-body text-center">
-                <h5>{food.name}</h5>
-                <p>₹{food.price}</p>
-                <div className="d-flex justify-content-center align-items-center">
-                  <Button onClick={() => handleQuantityChange(food.id, 'dec')} variant="contained" sx={{ minWidth: 40, backgroundColor: '#222' }}>−</Button>
-                  <span className="mx-3">{cartItems[food.id]?.quantity || 0}</span>
-                  <Button onClick={() => handleQuantityChange(food.id, 'inc')} variant="contained" sx={{ minWidth: 40, backgroundColor: '#222' }}>+</Button>
+        {filteredItems.map(item => (
+          <div className="col-md-3 mb-4" key={item.id}>
+            <div className="card h-100 shadow-sm border-0" style={{ height: '350px' }}>
+              <img 
+                src={item.image} 
+                className="card-img-top" 
+                alt={item.name}
+                style={{ height: '120px', objectFit: 'cover' }}
+              />
+              <div className="card-body p-3 d-flex flex-column">
+                <h6 className="card-title text-center mb-2" style={{ fontSize: '1rem' }}>{item.name}</h6>
+                <p className="text-center text-muted mb-2">₹{item.price}</p>
+                
+                <div className="d-flex justify-content-center align-items-center mb-3">
+                <button 
+                    className="btn btn-sm py-1 px-2" 
+                    onClick={() => handleAddToCart(item)}
+                    disabled={item.quantity === 0}
+                    style={{ marginRight:'1rem', fontSize: '1rem', width: '15%' }}
+                  >
+                    🛒
+                  </button>
+
+                  <button 
+                    className="btn btn-sm btn-outline-secondary px-2 py-1" 
+                    onClick={() => handleQuantityChange(item.id, -1)}
+                  >
+                    -
+                  </button>
+                  <span className="mx-2" style={{ minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                  <button 
+                    className="btn btn-sm btn-outline-secondary px-2 py-1" 
+                    onClick={() => handleQuantityChange(item.id, 1)}
+                  >
+                    +
+                  </button>
+                  <div className="mt-auto d-flex justify-content-between">
+                  
+                  <button 
+                    className="btn btn-warning btn-sm py-1 px-2" 
+                    onClick={() => handleOrderNow(item)}
+                    disabled={item.quantity === 0}
+                    style={{ marginLeft:'1rem',fontSize: '0.75rem',width: '85%' ,minWith:'20px'}}
+                  >
+                    Order Now
+                  </button>
                 </div>
+                </div>
+
+               
               </div>
             </div>
           </div>
@@ -83,4 +161,4 @@ const FoodItemsPage = () => {
   );
 };
 
-export default FoodItemsPage;
+export default FoodItems;
