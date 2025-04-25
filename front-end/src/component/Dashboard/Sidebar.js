@@ -6,7 +6,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { NavLink } from "react-router-dom";
 import Link from "@mui/material";
 // import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"; 
-import RestaurantIcon from '@mui/icons-material/Restaurant';
+import FoodIcon from '@mui/icons-material/Restaurant';
+import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 
 const Sidebar = ({ isOpen }) => {
   return (
@@ -75,11 +76,33 @@ const Sidebar = ({ isOpen }) => {
             "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
           }}
         >
-          <ListItemIcon sx={{ color: "white" }}><RestaurantIcon /></ListItemIcon>
+          <ListItemIcon sx={{ color: "white" }}><TableRestaurantIcon /></ListItemIcon>
          <ListItemText primary="Manage Restaurants" sx={{ transition: "font-weight 0.3s ease" }} />
           </ListItem>
 
         <Divider sx={{ backgroundColor: "#D9D9D9" }} />
+          
+        {/* Foods */}
+
+
+        <ListItem 
+          button 
+          component={NavLink} 
+          to="/Dashboard/ManageFoods" 
+          sx={{
+            color: "white",
+            // "&:hover": { backgroundColor: "#424242" },
+            "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, 
+            "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
+          }}
+        >
+          <ListItemIcon sx={{ color: "white" }}><FoodIcon /></ListItemIcon>
+         <ListItemText primary="Manage Foods" sx={{ transition: "font-weight 0.3s ease" }} />
+          </ListItem>
+
+        <Divider sx={{ backgroundColor: "#D9D9D9" }} />
+
+
 
         {/* Settings */}
         <ListItem 
