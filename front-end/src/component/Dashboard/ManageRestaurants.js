@@ -17,17 +17,30 @@ const DataTable = () => {
     contactNumber: '',
     ownerName: '',
     email: '',
+  });
 
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  }
-  );
-
-  const navigate=useNavigate();
+  const clearForm = () => {
+    setFormData({
+      restaurantName: '',
+      categories: [],
+      address: '',
+      city: '',
+      pincode: '',
+      contactNumber: '',
+      ownerName: '',
+      email: ''
+    });
+  };
 
   const handleEdit = (restaurant) => {
     setFormData({
       restaurantName: restaurant.restaurantName,
-      categories: restaurant.categories,
+      categories: Array.isArray(restaurant.categories)
+        ? restaurant.categories
+        : [restaurant.categories],
       address: restaurant.address || '',
       city: restaurant.city,
       pincode: restaurant.pincode,
@@ -38,6 +51,52 @@ const DataTable = () => {
     setShowModal(true);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      categories: checked
+        ? [...prev.categories, value]
+        : prev.categories.filter((cat) => cat !== value),
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/addRestaurants", formData);
+      if (response.data.success) {
+        Swal.fire({
+          title: "Restaurant Added!",
+          icon: "success",
+          confirmButtonText: "Okay"
+        });
+        clearForm();
+        setShowModal(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed to Add",
+          text: response.data.message || "Error while adding restaurant",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.response?.data?.message || "Something went wrong.",
+      });
+    }
+  };
+
+  const goBackToAdminDashboard = () => {
+    navigate('/Dashboard/AdminDashboard');
+  };
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -65,77 +124,12 @@ const DataTable = () => {
     }
   ];
 
-
-
   const rows = [
     { id: 1, restaurantName: 'Saravana Bhavan', categories: 'Veg', city: 'Chennai', pincode: 600001, contactNumber: 9876543210, ownerName: 'Ravi Kumar', email: 'ravi@example.com' },
     { id: 2, restaurantName: 'Barbeque Nation', categories: 'Non-Veg', city: 'Coimbatore', pincode: 641001, contactNumber: 9876543211, ownerName: 'Priya Sharma', email: 'priya@example.com' },
     { id: 3, restaurantName: 'A2B', categories: 'Veg', city: 'Salem', pincode: 636007, contactNumber: 9876543212, ownerName: 'Arun Babu', email: 'arun@example.com' },
     { id: 4, restaurantName: 'Thalappakatti', categories: 'Non-Veg', city: 'Erode', pincode: 638001, contactNumber: 9876543213, ownerName: 'Deepa Rani', email: 'deepa@example.com' },
   ];
-
-
-
-  const [showModal, setShowModal] = useState(false);
-
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      categories: checked
-        ? [...prev.categories, value]
-        : prev.categories.filter((cat) => cat !== value),
-    }));
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/addRestaurants", formData);
-      if (response.data.success) {
-        Swal.fire({
-          title: "Restaurant Added!",
-          icon: "success",
-          confirmButtonText: "Okay"
-        });
-        setFormData({
-          restaurantName: '',
-          categories: [],
-          address: '',
-          city: '',
-          pincode: '',
-          contactNumber: '',
-          ownerName: '',
-          email: ''
-        });
-        setShowModal(false);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Failed to Add",
-          text: response.data.message || "Error while adding restaurant",
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: error.response?.data?.message || "Something went wrong.",
-      });
-    }
-  };
-
-  const goBackToAdminDashboard = () => {
-    navigate('/Dashboard/AdminDashboard');
-    // window.location.href = '/Dashboard/AdminDashboard';
-  }
 
   return (
     <>
@@ -148,7 +142,7 @@ const DataTable = () => {
               style={{
                 fontWeight: '500',
                 borderRadius: '8px',
-                padding: '6px 12px',  
+                padding: '6px 12px',
                 fontFamily: 'Poppins, sans-serif',
                 boxShadow: '0px 2px 6px rgba(0,0,0,0.1)'
               }}
@@ -172,7 +166,10 @@ const DataTable = () => {
               borderRadius: '8px',
               boxShadow: '0px 4px 8px rgba(0,0,0,0.1)'
             }}
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              clearForm();
+              setShowModal(true);
+            }}
           >
             <i className="bi bi-plus-circle me-2"></i> Add Restaurant
           </button>
@@ -201,7 +198,6 @@ const DataTable = () => {
         </Paper>
       </Box>
 
-      {/* Keep your original modal unchanged */}
       {showModal && (
         <div className="modal show fade d-block" tabIndex="-1" role="dialog">
           <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -209,7 +205,14 @@ const DataTable = () => {
               <form onSubmit={handleSubmit}>
                 <div className="modal-header text-black">
                   <h5 className="modal-title">Add Restaurant</h5>
-                  <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => {
+                      clearForm();
+                      setShowModal(false);
+                    }}
+                  ></button>
                 </div>
                 <div className="modal-body">
                   <div className="row mb-3">
@@ -322,26 +325,20 @@ const DataTable = () => {
                 </div>
                 <div className="modal-footer bg-light">
                   <button
-                    style={{ marginRight: '520px' }}
                     type="button"
                     className="btn btn-outline-danger"
-                    onClick={() => setFormData({
-                      restaurantName: '',
-                      categories: [],
-                      address: '',
-                      city: '',
-                      pincode: '',
-                      contactNumber: '',
-                      ownerName: '',
-                      email: ''
-                    })}
+                    style={{ marginRight: '520px' }}
+                    onClick={clearForm}
                   >
                     Clear
                   </button>
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      clearForm();
+                      setShowModal(false);
+                    }}
                   >
                     Cancel
                   </button>
@@ -349,17 +346,12 @@ const DataTable = () => {
                     Add
                   </button>
                 </div>
-
               </form>
             </div>
           </div>
         </div>
       )}
-
-
     </>
-
-
   );
 };
 
