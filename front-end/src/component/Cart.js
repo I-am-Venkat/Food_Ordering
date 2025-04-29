@@ -9,6 +9,9 @@ import MargheritaPizza from '../img/Margherita_Pizza.jpeg';
 import Sushi from '../img/sushi.jpg';
 import CheeseBurger from '../img/Cheese_Burger.jpg';
 import CartImage from '../img/Cart.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // for back arrow icon
+// import Logo from '..'; // replace with your actual logo path
+
 // import ResponsiveAppBar from './ResponsiveAppBar'; // Assuming you have this component
 
 const Cart = () => {
@@ -41,6 +44,32 @@ const Cart = () => {
       {/* <ResponsiveAppBar /> */}
 
       <Container maxWidth="lg" sx={{ py: 5 }}>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+  <Button
+    component={Link}
+    to="/Home"
+    startIcon={<ArrowBackIcon />}
+    sx={{
+      color: '#2563EB',
+      textTransform: 'none',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      mr: 2,
+    }}
+  >
+    Back
+  </Button>
+  {/* <img
+    src={Logo}
+    alt="Logo"
+    style={{
+      height: '50px',
+      objectFit: 'contain',
+    }}
+  /> */}
+</Box>
+
         <Typography variant="h4" sx={{ color: '#3C3D37', fontWeight: 'bolder', mb: 4, textAlign: 'center' }}>
             
           Your Cart
