@@ -3,7 +3,13 @@ const Restaurant = require('../model/restaurant.model.js');
 const addRestaurant = async (req, res) => {
   const formData = req.body;
   try {
-    const existingRestaurant = await Restaurant.findOne({ contactNumber: formData.contactNumber });
+    const existingRestaurant = await Restaurant.findOne({
+      $or: [
+        { contactNumber: formData.contactNumber },
+        { email: formData.email }
+      ]
+    });
+    
     if (existingRestaurant) {
         return res.status(409).json({
           success: false,

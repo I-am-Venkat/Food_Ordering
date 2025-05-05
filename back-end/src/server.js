@@ -29,12 +29,25 @@ app.post("/Register",SendData);
 const validateUser=require("./controller/validUser.js");
 app.post("/login",validateUser);
 
-const addRestaurant=require("./controller/addRestaurants");
+const addRestaurant=require("./controller/addRestaurants.js");
 app.post("/addRestaurants",addRestaurant);
 
-const addFood=require("./controller/addFood");
+const addFood=require("./controller/addFood.js");
 app.post("/addFood",addFood);
 
+const addToCart=require("./controller/addToCart.js");
+app.post("/addToCart",addToCart);
+
+const getRestaurants=require("./controller/getRestaurants.js");
+app.get("/getRestaurants",getRestaurants);
+
+const updateRestaurant=require("./controller/updateRestaurant.js");
+app.post("/updateRestaurant",updateRestaurant);
+
+const deleteRestaurant = require("./controller/deleteRestaurant.js");
+app.delete("/deleteRestaurant/:email", deleteRestaurant);
+
+// app.delete("/deleteRestaurant/:email", deleteRestaurant);
 // ---------------------------------------------------------------------
 //App listen//
 app.listen(PORT,()=>{
