@@ -166,7 +166,8 @@ const DataTable = () => {
 
 
   // Function to delete a restaurant
-  
+
+
   const deleteRestaurant = async (email) => {
     try {
       console.log("Email to delete:", email);
@@ -185,14 +186,6 @@ const DataTable = () => {
           text: res.data.message || 'Failed to delete restaurant',
         });
       }
-
-
-  //     Swal.fire('Deleted!', 'Restaurant has been deleted.', 'success');
-  //     fetchRestaurants(); // Refresh your table
-  //   } catch (error) {
-  //     const errorMessage = error.response?.data?.message || 'Failed to delete';
-  //     Swal.fire('Error', errorMessage, 'error');
-    // }
     }
     catch (error) {
     Swal.fire({
@@ -200,6 +193,10 @@ const DataTable = () => {
       title: 'Error',
       text: error.response?.data?.message || 'Error',
     });
+  }
+  finally{
+    fetchRestaurants(); // Refresh the list after deletion
+    setShowEditModal(false); // Close the modal if open
   }
   };
   
@@ -267,7 +264,7 @@ const DataTable = () => {
 
           <button style={{ marginLeft: "10px" }}
             className="btn btn-sm btn-outline-danger"
-            onClick={() => confirmDelete(params.row._id)}
+            onClick={() => confirmDelete(params.row.email)}
 
           >
 
