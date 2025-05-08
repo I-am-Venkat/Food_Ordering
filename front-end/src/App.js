@@ -13,7 +13,7 @@ import AdminLogin from './component/AdminLogin';
 import FoodItems from './component/FoodItems';
 import Cart from './component/Cart';
 import LandingPage from './component/Landing';
-// import ManageFoods from './component/Dashboard/ManageFoods';
+import ManageFoods from './component/Dashboard/MaganeFoods';
 function App() {
   return (
     <Router>
@@ -23,7 +23,7 @@ function App() {
         <Route path="/Home" element={<Home/>}/>
         <Route path="/Dashboard/AdminDashboard" element={<AdminDashboard/>}/>
         <Route path="/Dashboard/ManageRestaurants" element={<ManageRestaurants/>}/>
-        {/* <Route path="/Dashboard/ManageFoods" element={<ManageFoods/>}/> */}
+        <Route path="/Dashboard/ManageFoods" element={<ManageFoods/>}/>
         <Route path="/AdminLogin" element={<AdminLogin/>}/>
         <Route path="/FoodItems" element={<FoodItems/>}/>
         <Route path="/Cart" element={<Cart/>}/>
