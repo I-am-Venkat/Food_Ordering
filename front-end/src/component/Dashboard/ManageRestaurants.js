@@ -21,8 +21,19 @@ const DataTable = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [rows, setRows] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchCity, setSearchCity] = useState('');
   const navigate = useNavigate();
+
+  // Filter restaurants based on search terms
+  const filteredRows = rows.filter(row => {
+    const matchesName = row.restaurantName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCity = searchCity === '' || row.city.toLowerCase().includes(searchCity.toLowerCase());
+    return matchesName && matchesCity;
+  });
 
   const clearForm = () => {
     setFormData({
@@ -36,7 +47,6 @@ const DataTable = () => {
       email: ''
     });
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +75,7 @@ const DataTable = () => {
         });
         clearForm();
         setShowModal(false);
-        fetchRestaurants(); // Refresh after adding
+        fetchRestaurants();
       } else {
         Swal.fire({
           icon: "error",
@@ -82,8 +92,12 @@ const DataTable = () => {
     }
   };
 
+  const handleRowClick = (params) => {
+    setSelectedRestaurant(params.row);
+    setShowViewModal(true);
+  };
+
   const handleEdit = async (restaurant) => {
-    // Set form data with restaurant details
     setFormData({
       restaurantName: restaurant.restaurantName,
       categories: Array.isArray(restaurant.categories)
@@ -96,12 +110,8 @@ const DataTable = () => {
       ownerName: restaurant.ownerName,
       email: restaurant.email,
     });
-
-    // Show the modal to edit
     setShowEditModal(true);
-
   };
-
 
   const handleUpdate = async (event) => {
     if (event && typeof event.preventDefault === 'function') {
@@ -112,13 +122,13 @@ const DataTable = () => {
       const response = await axios.post("http://localhost:5000/updateRestaurant", formData);
       if (response.data.success) {
         Swal.fire({
-          title: "Updated Successfully !",
+          title: "Updated Successfully!",
           icon: "success",
           confirmButtonText: "Okay"
         });
         clearForm();
         setShowEditModal(false);
-        fetchRestaurants(); // Refresh after adding
+        fetchRestaurants();
       } else {
         Swal.fire({
           icon: "error",
@@ -132,9 +142,8 @@ const DataTable = () => {
         title: "Error",
         text: error.response?.data?.message || "Something went wrong.",
       });
-    }
-    finally {
-      setShowEditModal(false); // Close the modal after update
+    } finally {
+      setShowEditModal(false);
     }
   };
 
@@ -142,7 +151,6 @@ const DataTable = () => {
     try {
       const response = await axios.get("http://localhost:5000/getRestaurants");
       if (response.data.success) {
-        // Assign unique ID for DataGrid
         const dataWithId = response.data.restaurants.map((item, index) => ({
           id: index + 1,
           ...item
@@ -164,15 +172,9 @@ const DataTable = () => {
     }
   };
 
-
-  // Function to delete a restaurant
-
-
   const deleteRestaurant = async (email) => {
     try {
-      console.log("Email to delete:", email);
       const res = await axios.delete(`http://localhost:5000/deleteRestaurant/${email}`);
-
       if (res.data.success) {
         Swal.fire({
           icon: 'success',
@@ -186,20 +188,18 @@ const DataTable = () => {
           text: res.data.message || 'Failed to delete restaurant',
         });
       }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.response?.data?.message || 'Error',
+      });
+    } finally {
+      fetchRestaurants();
+      setShowEditModal(false);
     }
-    catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: error.response?.data?.message || 'Error',
-    });
-  }
-  finally{
-    fetchRestaurants(); // Refresh the list after deletion
-    setShowEditModal(false); // Close the modal if open
-  }
   };
-  
+
   const confirmDelete = (email) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -226,27 +226,13 @@ const DataTable = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 100 },
     { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
-    // {
-    //   field: 'categories',
-    //   headerName: 'Categories',
-    //   width: 150,
-    //   valueGetter: (params) => {
-    //     // Ensure the 'categories' field is defined and is an array
-    //     const categories = params.row?.categories;
-    //     return Array.isArray(categories) && categories.length > 0
-    //       ? categories.join(', ') // If valid array with values, join them as a string
-    //       : 'No Category'; // If undefined or empty array, return 'No Category'
-    //   },
-    // },
-
-
     { field: 'city', headerName: 'City', width: 130 },
     { field: 'pincode', headerName: 'Pincode', width: 100 },
-    { field: 'contactNumber', headerName: 'Contact Number', width: 150 },
+    { field: 'contactNumber', headerName: 'Contact Number', width: 170 },
     { field: 'ownerName', headerName: 'Owner Name', width: 200 },
-    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'email', headerName: 'Email', width: 230 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -254,27 +240,29 @@ const DataTable = () => {
       sortable: false,
       filterable: false,
       renderCell: (params) => (
-        <div className="flex gap-2" >
+        <div className="flex gap-2">
           <button
             className="btn btn-sm btn-outline-primary"
-            onClick={() => handleEdit(params.row)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit(params.row);
+            }}
           >
             <i className="bi bi-pencil-fill me-1"></i> Edit
           </button>
-
-          <button style={{ marginLeft: "10px" }}
+          <button 
+            style={{ marginLeft: "10px" }}
             className="btn btn-sm btn-outline-danger"
-            onClick={() => confirmDelete(params.row.email)}
-
+            onClick={(e) => {
+              e.stopPropagation();
+              confirmDelete(params.row.email);
+            }}
           >
-
             <i className="bi bi-trash-fill me-1"></i> Delete
           </button>
         </div>
       ),
     },
-
-
   ];
 
   return (
@@ -311,13 +299,62 @@ const DataTable = () => {
           </button>
         </div>
 
+        {/* Search Section */}
+        <div className="row justify-content-center mb-4">
+          <div className="col-md-8">
+            <div className="card shadow-sm border-0">
+              <div className="card-body p-3">
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <div className="input-group">
+                      <span className="input-group-text bg-white border-end-0">
+                        <i className="bi bi-search"></i>
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control border-start-0"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input-group">
+                      <span className="input-group-text bg-white border-end-0">
+                        <i className="bi bi-geo-alt"></i>
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control border-start-0"
+                        placeholder="Filter by city..."
+                        value={searchCity}
+                        onChange={(e) => setSearchCity(e.target.value)}
+                      />
+                      {searchCity && (
+                        <button
+                          className="btn btn-outline-secondary"
+                          type="button"
+                          onClick={() => setSearchCity('')}
+                        >
+                          <i className="bi bi-x"></i>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <Paper elevation={4} sx={{ borderRadius: '16px', overflow: 'hidden' }}>
           <DataGrid
-            rows={rows}
+            rows={filteredRows}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
+            onRowClick={handleRowClick}
             sx={{
               '& .MuiDataGrid-columnHeaders': {
                 backgroundColor: '#0077b6',
@@ -411,14 +448,13 @@ const DataTable = () => {
       )}
 
       {/* Modal for Edit Restaurant */}
-
       {showEditModal && (
         <div className="modal show fade d-block" tabIndex="-1">
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content shadow">
               <form onSubmit={handleUpdate}>
                 <div className="modal-header">
-                  <h5 className="modal-title">Edit</h5>
+                  <h5 className="modal-title">Edit Restaurant</h5>
                   <button type="button" className="btn-close" onClick={() => {
                     clearForm();
                     setShowEditModal(false);
@@ -487,6 +523,89 @@ const DataTable = () => {
         </div>
       )}
 
+      {/* Modal for View Restaurant Details */}
+      {showViewModal && selectedRestaurant && (
+        <div className="modal show fade d-block" tabIndex="-1">
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content shadow">
+              <div className="modal-header">
+                <h5 className="modal-title">Restaurant Details</h5>
+                <button 
+                  type="button" 
+                  className="btn-close" 
+                  onClick={() => setShowViewModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold">Restaurant Name</label>
+                    <p>{selectedRestaurant.restaurantName}</p>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold">Categories</label>
+                    <p>
+                      {Array.isArray(selectedRestaurant.categories) 
+                        ? selectedRestaurant.categories.join(', ')
+                        : selectedRestaurant.categories || 'N/A'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label fw-bold">Address</label>
+                  <p>{selectedRestaurant.address || 'N/A'}</p>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-4">
+                    <label className="form-label fw-bold">City</label>
+                    <p>{selectedRestaurant.city || 'N/A'}</p>
+                  </div>
+                  <div className="col-md-4">
+                    <label className="form-label fw-bold">Pincode</label>
+                    <p>{selectedRestaurant.pincode || 'N/A'}</p>
+                  </div>
+                  <div className="col-md-4">
+                    <label className="form-label fw-bold">Contact Number</label>
+                    <p>{selectedRestaurant.contactNumber || 'N/A'}</p>
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold">Owner Name</label>
+                    <p>{selectedRestaurant.ownerName || 'N/A'}</p>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold">Email</label>
+                    <p>{selectedRestaurant.email || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setShowViewModal(false);
+                    handleEdit(selectedRestaurant);
+                  }}
+                >
+                  Edit
+                </button>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => setShowViewModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

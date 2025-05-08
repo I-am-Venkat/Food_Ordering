@@ -15,16 +15,17 @@ const Sidebar = ({ isOpen }) => {
       variant="persistent"
       open={isOpen} 
       sx={{
-        width: isOpen ? 240 : 0,
+        width: isOpen ? 250 : 0,
         flexShrink: 0,
         transition: "width 0.3s ease",
         
         "& .MuiDrawer-paper": {
-          width: isOpen ? 240 : 0,
+          width: isOpen ? 250 : 0,
           boxSizing: "border-box",
           backgroundColor: "#66A5AD",  // Sidebar Background
           color: "#D9D9D9",
           top: "64px",  // Prevents overlap with header
+          transition: "width 0.3s ease",
         },
       }}
     >
@@ -73,12 +74,13 @@ const Sidebar = ({ isOpen }) => {
             color: "white",
             // "&:hover": { backgroundColor: "#424242" },
             "&:hover .MuiListItemText-primary": { fontWeight: "bold" }, 
-            "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold" }
+            "&.active-link": { backgroundColor: "#1E1E1E", fontWeight: "bold"  } 
           }}
         >
           <ListItemIcon sx={{ color: "white" }}><TableRestaurantIcon /></ListItemIcon>
-         <ListItemText primary="Manage Restaurants" sx={{ transition: "font-weight 0.3s ease" }} />
+         <ListItemText primary="Manage Restaurants" sx={{width: "102%", transition: "font-weight 0.3s ease" }} />
           </ListItem>
+
 
         <Divider sx={{ backgroundColor: "#D9D9D9" }} />
           
