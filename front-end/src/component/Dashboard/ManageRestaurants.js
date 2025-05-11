@@ -6,6 +6,12 @@ import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 
 const DataTable = () => {
   const [formData, setFormData] = useState({
@@ -24,16 +30,11 @@ const DataTable = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchCity, setSearchCity] = useState('');
+  const [cityFilter, setCityFilter] = useState('All');
+  const [categoryFilter, setCategoryFilter] = useState('All');
   const navigate = useNavigate();
-
-  // Filter restaurants based on search terms
-  const filteredRows = rows.filter(row => {
-    const matchesName = row.restaurantName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCity = searchCity === '' || row.city.toLowerCase().includes(searchCity.toLowerCase());
-    return matchesName && matchesCity;
-  });
 
   const clearForm = () => {
     setFormData({
@@ -156,6 +157,7 @@ const DataTable = () => {
           ...item
         }));
         setRows(dataWithId);
+        setFilteredRows(dataWithId);
       } else {
         Swal.fire({
           icon: "error",
@@ -217,6 +219,35 @@ const DataTable = () => {
     });
   };
 
+  // Apply filters whenever search term or filters change
+  useEffect(() => {
+    let result = rows;
+    
+    // Apply search filter
+    if (searchTerm) {
+      result = result.filter(row => 
+        row.restaurantName.toLowerCase().includes(searchTerm.toLowerCase()) 
+        // row.ownerName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    // Apply city filter
+    if (cityFilter !== 'All') {
+      result = result.filter(row => row.city === cityFilter);
+    }
+    
+    // Apply category filter
+    if (categoryFilter !== 'All') {
+      result = result.filter(row => 
+        Array.isArray(row.categories) 
+          ? row.categories.includes(categoryFilter)
+          : row.categories === categoryFilter
+      );
+    }
+    
+    setFilteredRows(result);
+  }, [searchTerm, cityFilter, categoryFilter, rows]);
+
   useEffect(() => {
     fetchRestaurants();
   }, []);
@@ -226,17 +257,17 @@ const DataTable = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width:85 },
+    { field: 'id', headerName: 'ID', width: 85 },
     { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
     { field: 'city', headerName: 'City', width: 130 },
     { field: 'pincode', headerName: 'Pincode', width: 100 },
-    { field: 'contactNumber', headerName: 'Contact Number', width: 170 },
-    { field: 'ownerName', headerName: 'Owner Name', width: 200 },
+    { field: 'contactNumber', headerName: 'Contact', width: 150 },
+    { field: 'ownerName', headerName: 'Owner', width: 180 },
     { field: 'email', headerName: 'Email', width: 230 },
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      width: 180,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
@@ -247,11 +278,12 @@ const DataTable = () => {
               e.stopPropagation();
               handleEdit(params.row);
             }}
+            style={{ marginLeft: "10px" }}
           >
             <i className="bi bi-pencil-fill me-1"></i> Edit
           </button>
           <button 
-            style={{ marginLeft: "10px" }}
+          style={{ marginLeft: "10px" }}
             className="btn btn-sm btn-outline-danger"
             onClick={(e) => {
               e.stopPropagation();
@@ -265,6 +297,9 @@ const DataTable = () => {
     },
   ];
 
+  // Get unique cities for filter dropdown
+  const uniqueCities = [...new Set(rows.map(row => row.city))].filter(Boolean);
+
   return (
     <>
       <Box sx={{ background: '#f1f3f6', minHeight: '100vh', padding: '50px' }}>
@@ -276,11 +311,9 @@ const DataTable = () => {
           >
             🔙 Back
           </button>
-
           <h3 className="fw-bold" style={{ fontFamily: 'Poppins, sans-serif' }}>
             🍽️ Restaurants
           </h3>
-
           <button
             className="btn"
             style={{
@@ -299,54 +332,52 @@ const DataTable = () => {
           </button>
         </div>
 
-        {/* Search Section */}
-        <div className="row justify-content-center mb-4">
-          <div className="col-md-8">
-            <div className="card shadow-sm border-0">
-              <div className="card-body p-3">
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <div className="input-group">
-                      <span className="input-group-text bg-white border-end-0">
-                        <i className="bi bi-search"></i>
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control border-start-0"
-                        placeholder="Search by name..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="input-group">
-                      <span className="input-group-text bg-white border-end-0">
-                        <i className="bi bi-geo-alt"></i>
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control border-start-0"
-                        placeholder="Filter by city..."
-                        value={searchCity}
-                        onChange={(e) => setSearchCity(e.target.value)}
-                      />
-                      {searchCity && (
-                        <button
-                          className="btn btn-outline-secondary"
-                          type="button"
-                          onClick={() => setSearchCity('')}
-                        >
-                          <i className="bi bi-x"></i>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Search and Filter Controls */}
+        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+          <TextField
+            label="Search by Name"
+            variant="outlined"
+            fullWidth
+            size="small"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <i className="bi bi-search"></i>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ maxWidth: 400 }}
+          />
+          
+          <FormControl sx={{ minWidth: 150 }} size="small">
+            <InputLabel>City</InputLabel>
+            <Select
+              value={cityFilter}
+              label="City"
+              onChange={(e) => setCityFilter(e.target.value)}
+            >
+              <MenuItem value="All">All Cities</MenuItem>
+              {uniqueCities.map(city => (
+                <MenuItem key={city} value={city}>{city}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl sx={{ minWidth: 150 }} size="small">
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={categoryFilter}
+              label="Category"
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <MenuItem value="All">All Categories</MenuItem>
+              <MenuItem value="Veg">Veg</MenuItem>
+              <MenuItem value="Non-Veg">Non-Veg</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         <Paper elevation={4} sx={{ borderRadius: '16px', overflow: 'hidden' }}>
           <DataGrid
@@ -591,10 +622,12 @@ const DataTable = () => {
                     setShowViewModal(false);
                     handleEdit(selectedRestaurant);
                   }}
+                  style={{ marginRight: "10px" }}
                 >
                   Edit
                 </button>
                 <button 
+                 
                   type="button" 
                   className="btn btn-secondary" 
                   onClick={() => setShowViewModal(false)}
