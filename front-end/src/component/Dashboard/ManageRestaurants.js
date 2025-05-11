@@ -226,7 +226,7 @@ const DataTable = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'id', headerName: 'ID', width:85 },
     { field: 'restaurantName', headerName: 'Restaurant Name', width: 200 },
     { field: 'city', headerName: 'City', width: 130 },
     { field: 'pincode', headerName: 'Pincode', width: 100 },
@@ -236,7 +236,7 @@ const DataTable = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 200,
+      width: 150,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
