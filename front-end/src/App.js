@@ -13,7 +13,7 @@ import AdminLogin from './component/AdminLogin';
 import FoodItems from './component/FoodItems';
 import Cart from './component/Cart';
 import LandingPage from './component/Landing';
-import ManageFoods from './component/Dashboard/MaganeFoods';
+import ManageFoods from './component/Dashboard/ManageFoods';
 function App() {
   return (
     <Router>

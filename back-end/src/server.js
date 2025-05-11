@@ -32,8 +32,6 @@ app.post("/login",validateUser);
 const addRestaurant=require("./controller/addRestaurants.js");
 app.post("/addRestaurants",addRestaurant);
 
-const addFood=require("./controller/addFood.js");
-app.post("/addFood",addFood);
 
 const addToCart=require("./controller/addToCart.js");
 app.post("/addToCart",addToCart);
@@ -46,6 +44,15 @@ app.post("/updateRestaurant",updateRestaurant);
 
 const deleteRestaurant = require("./controller/deleteRestaurant.js");
 app.delete("/deleteRestaurant/:email", deleteRestaurant);
+
+const getFoods = require("./controller/getFoods.js");
+app.get("/getFoods", getFoods);
+
+const addFood=require("./controller/addFood.js");
+app.post("/addFood",addFood);
+
+const updateFood=require("./controller/updateFood.js");
+app.post("/updateFood/:foodId",updateFood);
 
 // app.delete("/deleteRestaurant/:email", deleteRestaurant);
 // ---------------------------------------------------------------------

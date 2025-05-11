@@ -113,7 +113,7 @@ const FoodDataTable = () => {
                 updateData.append('image', formData.image);
             }
     
-            const response = await axios.post("http://localhost:5000/updateFood", updateData, {
+            const response = await axios.post(`http://localhost:5000/updateFood/${formData.foodId}`, updateData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -515,7 +515,7 @@ const FoodDataTable = () => {
                                         clearForm();
                                         setShowEditModal(false);
                                     }}>Cancel</button>
-                                    <button type="submit" className="btn btn-primary">Update</button>
+                                    <button type="submit" className="btn btn-primary" onClick={handleUpdate}>Update</button>
                                 </div>
                             </form>
                         </div>

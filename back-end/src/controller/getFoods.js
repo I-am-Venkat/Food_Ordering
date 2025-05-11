@@ -32,5 +32,4 @@ const getFoods = async (req, res) => {
   }
 };
 
-module.exports = getFoods
-module.exports = getFoods
+module.exports = getFoods;
