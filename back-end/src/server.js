@@ -54,6 +54,9 @@ app.post("/addFood",addFood);
 const updateFood=require("./controller/updateFood.js");
 app.post("/updateFood/:foodId",updateFood);
 
+const deleteFood=require("./controller/deleteFood.js");
+app.delete("/deleteFood/:foodId",deleteFood);
+
 // app.delete("/deleteRestaurant/:email", deleteRestaurant);
 // ---------------------------------------------------------------------
 //App listen//
