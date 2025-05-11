@@ -14,8 +14,8 @@ const FoodDataTable = () => {
         description: '',
         price: '',
         category: '',
-        image: null, // Changed from imageUrl to handle File object
-        imageUrl: '' // For displaying existing images
+        // image: null, // Changed from imageUrl to handle File object
+        // imageUrl: '' // For displaying existing images
     });
 
     const [showModal, setShowModal] = useState(false);
@@ -30,8 +30,8 @@ const FoodDataTable = () => {
             description: '',
             price: '',
             category: '',
-            image: null,
-            imageUrl: ''
+            // image: null,
+            // imageUrl: ''
         });
     };
 
@@ -40,25 +40,14 @@ const FoodDataTable = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            // Create a preview URL for the image
-            const imageUrl = URL.createObjectURL(file);
-            setFormData(prev => ({ 
-                ...prev, 
-                image: file,
-                imageUrl: imageUrl 
-            }));
-        }
-    };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-       
+
         try {
             const response = await axios.post("http://localhost:5000/addFood", formData);
-    
+
             if (response.data.success) {
                 Swal.fire({
                     title: "Food Added!",
@@ -91,58 +80,81 @@ const FoodDataTable = () => {
             description: food.description,
             price: food.price,
             category: food.category,
-            image: null, // Reset image file when editing
-            imageUrl: food.imageUrl // Keep existing image URL
         });
         setShowEditModal(true);
     };
 
+
     const handleUpdate = async (event) => {
-        event.preventDefault();
-    
-        try {
-            // For updates, we'll use a different approach since we might or might not update the image
-            const updateData = new FormData();
-            updateData.append('foodId', formData.foodId);
-            updateData.append('name', formData.name);
-            updateData.append('description', formData.description);
-            updateData.append('price', formData.price);
-            updateData.append('category', formData.category);
-            
-            if (formData.image) {
-                updateData.append('image', formData.image);
-            }
-    
-            const response = await axios.post(`http://localhost:5000/updateFood/${formData.foodId}`, updateData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-    
-            if (response.data.success) {
-                Swal.fire({
-                    title: "Updated Successfully!",
-                    icon: "success",
-                    confirmButtonText: "Okay"
-                });
-                clearForm();
-                setShowEditModal(false);
-                fetchFoods();
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Failed to Update",
-                    text: response.data.message || "Error While Updating Food",
-                });
-            }
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: error.response?.data?.message || "Something went wrong.",
-            });
-        }
-    };
+  event.preventDefault();
+  
+  console.log('Updating food with data:', formData); // Debug log
+  
+  try {
+    const response = await axios.post(
+      `http://localhost:5000/updateFood/${formData.foodId}`,
+      {
+        name: formData.name,
+        description: formData.description,
+        price: formData.price,
+        category: formData.category
+      }
+    );
+
+    console.log('Update response:', response.data); // Debug log
+    if (response.data.success) {
+      Swal.fire("Success!", "Food updated successfully", "success");
+      setShowEditModal(false);
+      fetchFoods();
+    }
+  } catch (error) {
+    console.error('Update error:', error.response); // Enhanced error logging
+    Swal.fire("Error", error.response?.data?.message || "Update failed", "error");
+  }
+};
+    // const handleUpdate = async (event) => {
+    //     event.preventDefault();
+
+    //     try {
+    //         // For updates, we'll use a different approach since we might or might not update the image
+    //         const updateData = new FormData();
+    //         updateData.append('foodId', formData.foodId);
+    //         updateData.append('name', formData.name);
+    //         updateData.append('description', formData.description);
+    //         updateData.append('price', formData.price);
+    //         updateData.append('category', formData.category);
+
+
+    //         const response = await axios.post(`http://localhost:5000/updateFood/${formData.foodId}`, updateData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+
+    //         if (response.data.success) {
+    //             Swal.fire({
+    //                 title: "Updated Successfully!",
+    //                 icon: "success",
+    //                 confirmButtonText: "Okay"
+    //             });
+    //             clearForm();
+    //             setShowEditModal(false);
+    //             fetchFoods();
+    //         } else {
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: "Failed to Update",
+    //                 text: response.data.message || "Error While Updating Food",
+    //             });
+    //         }
+    //     } catch (error) {
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "Error",
+    //             text: error.response?.data?.message || "Something went wrong.",
+    //         });
+    //     }
+    // };
 
     const fetchFoods = async () => {
         try {
@@ -225,24 +237,6 @@ const FoodDataTable = () => {
 
     const columns = [
         { field: 'foodId', headerName: 'Food ID', width: 100 },
-        {
-            field: 'imageUrl',
-            headerName: 'Image',
-            width: 120,
-            renderCell: (params) => (
-                params.value ? (
-                    <img
-                        src={params.value}
-                        alt="food"
-                        style={{ width: '100px', height: '60px', objectFit: 'cover', borderRadius: '8px' }}
-                    />
-                ) : (
-                    <div style={{ width: '100px', height: '60px', backgroundColor: '#f0f0f0', borderRadius: '8px' }}>
-                        No Image
-                    </div>
-                )
-            )
-        },
         { field: 'name', headerName: 'Food Name', width: 200 },
         { field: 'description', headerName: 'Description', width: 130 },
         { field: 'price', headerName: 'Price', width: 100 },
@@ -261,7 +255,7 @@ const FoodDataTable = () => {
                     >
                         <i className="bi bi-pencil-fill me-1"></i> Edit
                     </button>
-                    <button 
+                    <button
                         style={{ marginLeft: "10px" }}
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => confirmDelete(params.row.foodId)}
@@ -383,24 +377,7 @@ const FoodDataTable = () => {
                                                 required
                                             />
                                         </div>
-                                        <div className="col-md-6">
-                                            <label className="form-label">Upload Food Image</label>
-                                            <input
-                                                type="file"
-                                                name="image"
-                                                className="form-control"
-                                                accept="image/*"
-                                                onChange={handleFileChange}
-                                                required
-                                            />
-                                            {formData.imageUrl && (
-                                                <img 
-                                                    src={formData.imageUrl} 
-                                                    alt="Preview" 
-                                                    style={{ width: '100px', height: '60px', marginTop: '10px' }} 
-                                                />
-                                            )}
-                                        </div>
+
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Description</label>
@@ -441,41 +418,68 @@ const FoodDataTable = () => {
                                 </div>
                                 <div className="modal-body">
                                     <div className="row mb-3">
-                                        <div className="col-md-6">
-                                            <label className="form-label">Food name</label>
-                                            <input 
-                                                type="text" 
-                                                name="name" 
-                                                className="form-control" 
-                                                value={formData.name} 
-                                                onChange={handleChange} 
-                                                required 
+                                        <div className="col-md-5">
+                                            <label className="form-label">Food ID</label>
+                                            <input
+                                                type="text"
+                                                name="foodId"
+                                                className="form-control"
+                                                value={formData.foodId}
+                                                readOnly
+                                                onChange={handleChange}
+                                                required
+                                                style={{ backgroundColor: "#e9ecef", cursor: "not-allowed" }}
                                             />
                                         </div>
+
+                                        {/* <div className="row mb-3"> */}
+                                        <div className="col-md-5">
+                                            <label className="form-label">Food name</label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                className="form-control"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        {/* </div> */}
+
+
                                     </div>
+                                </div>
+
+
+                                <div className="modal-body">
+
                                     <div className="mb-3">
                                         <label className="form-label">Description</label>
-                                        <textarea 
-                                            name="description" 
-                                            className="form-control" 
-                                            value={formData.description} 
-                                            onChange={handleChange} 
+                                        <textarea
+                                            name="description"
+                                            className="form-control"
+                                            value={formData.description}
+                                            onChange={handleChange}
                                             rows={3}
                                         />
                                     </div>
+
                                     <div className="row mb-3">
+
                                         <div className="col-md-4">
                                             <label className="form-label">Price</label>
-                                            <input 
-                                                type="number" 
-                                                name="price" 
-                                                className="form-control" 
-                                                value={formData.price} 
-                                                onChange={handleChange} 
-                                                required 
+                                            <input
+                                                type="number"
+                                                name="price"
+                                                className="form-control"
+                                                value={formData.price}
+                                                onChange={handleChange}
+                                                required
                                             />
                                         </div>
+
                                         <div className="col-md-4">
+
                                             <label className="form-label">Category</label>
                                             <select
                                                 name="category"
@@ -487,27 +491,9 @@ const FoodDataTable = () => {
                                                 <option value="Veg">Veg</option>
                                                 <option value="Non Veg">Non Veg</option>
                                             </select>
+
                                         </div>
-                                        <div className="col-md-4">
-                                            <label className="form-label">Update Food Image</label>
-                                            <input 
-                                                type="file" 
-                                                name="image" 
-                                                className="form-control" 
-                                                accept="image/*" 
-                                                onChange={handleFileChange} 
-                                            />
-                                            {formData.imageUrl && (
-                                                <div style={{ marginTop: '10px' }}>
-                                                    <p>Current Image:</p>
-                                                    <img 
-                                                        src={formData.imageUrl} 
-                                                        alt="Current" 
-                                                        style={{ width: '100px', height: '60px' }} 
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div className="modal-footer">

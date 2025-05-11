@@ -18,13 +18,9 @@ const foodItemSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: String, // e.g., 'Pizza', 'Drinks', 'Dessert'
-  },
-  imageUrl: {
     type: String,
   },
+  // Removed imageUrl field completely
+}, { timestamps: true });
 
-});
-
-const Food = mongoose.model('FoodItem', foodItemSchema);
-module.exports = Food;
+module.exports = mongoose.model('FoodItem', foodItemSchema);
